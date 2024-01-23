@@ -1,0 +1,7 @@
+- include_tasks: copy-cert.yml
+- include_tasks: horizon-install.yml
+- include_tasks: ssl-module-set.yml
+- include_tasks: horizon-config-set.yml
+  when: inventory_hostname in groups["controller"]
+- include_tasks: apache2-restart.yml
+

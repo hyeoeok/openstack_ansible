@@ -1,0 +1,13 @@
+---
+- import_tasks: placement-config-set.yml
+
+# Handlers for placement
+- name: restart apache2..
+  service: name=apache2 state=restarted
+  when: placement_conf is changed
+
+- name: start apache2
+  service: name=apache2 state=started
+
+- name: stop apache2
+  service: name=apache2 state=stopped

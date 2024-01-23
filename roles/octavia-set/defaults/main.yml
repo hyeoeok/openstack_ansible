@@ -1,0 +1,16 @@
+OCTAVIA_MGMT_SUBNET: 172.16.0.0/12
+OCTAVIA_MGMT_SUBNET_START: 172.16.0.100
+OCTAVIA_MGMT_SUBNET_END: 172.16.31.254
+OCTAVIA_MGMT_PORT_IP: 172.16.0.4
+OCTAVIA_NETWORK_NAME: lb-mgmt-net
+OCTAVIA_MGMT_SUBNET_NAME: lb-mgmt-subnet
+
+cloud_dir: /etc/openstack
+
+SECURITY_GROUP_NAME: lb-mgmt-sec-grp
+H_SECURITY_GROUP_NAME: lb-health-mgr-sec-grp
+octavia_amphora_img_path: /root/amphora-img
+octavia_amphora_img_name: octavia-amphora-haproxy-yoga.qcow2
+
+cloud_dir: /etc/openstack
+

@@ -1,0 +1,7 @@
+---
+- name: memcached install
+  apt:
+    update_cache: yes
+    name:
+       - memcached
+       - python3-memcache

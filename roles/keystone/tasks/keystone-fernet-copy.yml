@@ -1,0 +1,12 @@
+- name: Fernetkey-copy
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: 'fernet-keys',dest: '/etc/keystone/',owner: 'keystone',group: 'keystone',mode: '0600' }
+    #- { src: 'fernet-keys/1',dest: '/etc/keystone/fernet-keys/1',owner: 'keystone',group: 'keystone',mode: '0600' }
+    - { src: 'credential-keys',dest: '/etc/keystone/',owner: 'keystone',group: 'keystone',mode: '0600' }
+    #- { src: 'credential-keys/1',dest: '/etc/keystone/credential-keys/1',owner: 'keystone',group: 'keystone',mode: '0600' }

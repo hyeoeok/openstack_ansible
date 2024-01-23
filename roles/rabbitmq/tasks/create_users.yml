@@ -1,0 +1,12 @@
+---
+- name: rabbitmq create user
+  no_log: true
+  rabbitmq_user:
+    user: "{{ rabbitmq_name }}"
+    password: "{{ rabbitmq_password }}"
+    vhost: /
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present
+  register: create_user

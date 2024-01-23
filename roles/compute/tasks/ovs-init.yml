@@ -1,0 +1,35 @@
+- name: external bridge create
+  openvswitch.openvswitch.openvswitch_bridge:
+    bridge: br-ex
+    state: present
+    fail_mode: secure
+
+
+- name: external second-bridge create
+  openvswitch.openvswitch.openvswitch_bridge:
+    bridge: "{{ second_bridge }}"
+    state: present
+    fail_mode: secure
+  when: second_bridge is defined
+
+
+- name: external bridge port mapping
+  openvswitch.openvswitch.openvswitch_port:
+    bridge: br-ex
+    port: "{{ bridge_port }}"
+    state: present
+
+
+
+- name: external second-bridge port mapping
+  openvswitch.openvswitch.openvswitch_port:
+    bridge: "{{ second_bridge }}"
+    port: "{{ second_bridge_port }}"
+    state: present
+  when: second_bridge is defined
+
+
+- name: restart openvswitch agent
+  service:
+    name: neutron-openvswitch-agent
+    state: restarted

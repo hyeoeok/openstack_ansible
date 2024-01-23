@@ -1,0 +1,9 @@
+---
+- name: restart pxc non primary
+  service:
+    name: mysql
+    state: restarted
+    #register: mysql_restart
+    #until: mysql_restart.status.ActiveState == "active"
+    #retries: 15
+    #deploy: 20

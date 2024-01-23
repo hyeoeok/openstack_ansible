@@ -1,0 +1,56 @@
+---
+- name: pcs && pacemaker install
+  apt: 
+    update-cache: yes
+    name:
+      - pacemaker
+      - pcs
+    state: present
+
+#   - name: Add mappings to /etc/hosts
+#     blockinfile:
+#       path: /etc/hosts
+#       block: |
+#        {{haproxy01_ip}} haproxy01
+#        {{haproxy02_ip}} haproxy02
+#        {{haproxy03_ip}} haproxy03
+
+- name: all service stop
+  service: 
+    name: "{{ item }}"
+    state: stopped
+  with_items:
+  - pcsd
+  - pacemaker
+  - corosync
+       
+- name: hauser password change
+  user: 
+    name: hacluster
+    #password: $6$St37TBmTVXODLYvR$9Aet1DHFemobTvYIETO9IlktGwkvPHE2XrWFOfmVh2rRH9BxfxDrwt1wK3Lw1S8xdcvyqlrTEU2WUpSSQQTzT1
+    password: "{{ haproxy_pwd | password_hash('sha512')}}"
+    update_password: always
+
+- name: pcsd started
+  service: 
+    name: "{{ item }}"
+    state: started
+  with_items:
+  - pcsd
+
+- name: haproxy sysctl -p
+  sysctl:
+    name: net.ipv4.ip_nonlocal_bind
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: corosync conf copy
+  template:
+    src: "corosync.conf.j2"
+    dest: /etc/corosync/corosync.conf
+    owner: root
+    group: root
+    mode: 0644
+  register: corosync_conf

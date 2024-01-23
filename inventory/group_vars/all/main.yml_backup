@@ -1,0 +1,77 @@
+# Baremetal init 
+
+## Local repository ##
+pakage_ip: 101.202.35.181:10880
+
+#Copy file && Copy template path
+copy_files: /root/okestroiaas/files/{{item}}
+template_files: /root/okestroiaas/template/{{item}}
+
+# Baremetal hosts IP
+api_interface: ens3f0
+
+# lxd init setting vars
+#lxd_storage_backend: dir
+#lxd_storage_pool: lxd_pool
+#lxd_trust_password: cloud1234
+#lxd_bind_address: 0.0.0.0
+#lxd_bind_port: 8443
+
+# lxd profile_default vars
+#eth1_nic: brs2
+#fingerprint: 36e11bca5854
+
+# NTP Setting
+ntp_main: 192.168.34.70
+ntp_other: 192.168.34.251,192.168.34.252,192.168.34.253
+ntp_main_server: 192.168.34.70
+ntp_server: 192.168.34.70
+
+# rabbitmq setting 
+rabbitmq_name: openstack
+rabbitmq_password: rhdrhdCloud12!
+main_hostname: controller01
+rabbitmq01_ip: 192.168.34.251
+rabbitmq02_ip: 192.168.34.252
+rabbitmq03_ip: 192.168.34.253
+
+# memcached setting
+memcached01_ip: 192.168.34.251
+memcached02_ip: 192.168.34.252
+memcached03_ip: 192.168.34.253
+
+# percona setting 
+db_password: rhdrhdCloud12!
+
+# haproxy setting
+int_bind_ip: 192.168.34.120
+pub_bind_ip: 192.168.34.120
+int_bind_nic: ens3f0
+pub_bind_nic: ens3f0
+int_cidr_netmask: 24
+pub_cidr_netmask: 24
+
+member: controller01 controller02 controller03
+haproxy01_ip: 192.168.34.251
+haproxy02_ip: 192.168.34.252
+haproxy03_ip: 192.168.34.253
+controller01_ip: 192.168.34.251
+controller02_ip: 192.168.34.252
+controller03_ip: 192.168.34.253
+haproxy_pwd: rhdrhdCloud12!
+
+
+pub_controller01_ip: 192.168.34.251
+pub_controller02_ip: 192.168.34.252
+pub_controller03_ip: 192.168.34.253
+
+# keystone
+keystone_pass: rhdrhdCloud12!
+
+# nova_api
+vnc_host: 192.168.34.250
+
+# neutron_api
+flat_networks: br-ex
+local_ip: "{{ hostvars[inventory_hostname]['ansible_ens3f0'].ipv4.address }}"
+bridge_mappings: "external:br-ex"

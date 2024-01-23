@@ -1,0 +1,12 @@
+- name: chrony conf file copy
+  template:
+    src: chrony.conf.other.j2
+    dest: /etc/chrony/chrony.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: chrony service restart
+  service:
+    name: chrony
+    state: restarted

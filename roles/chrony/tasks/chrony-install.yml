@@ -1,0 +1,9 @@
+- name: timedate set Seoul
+  command: timedatectl set-timezone Asia/Seoul
+
+- name: NTP Service install
+  apt:
+    update_cache: yes
+    name:
+       - chrony
+    state: present

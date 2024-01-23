@@ -1,0 +1,16 @@
+---
+- name: haproxy install
+  apt:
+    update-cache: yes
+    name:
+      - haproxy
+    state: present
+  #when: '"100% packet loss" in external_vip_check.stdout' and '"100% packet loss" in internal_vip_check.stdout'
+
+#   - name: Add mappings to /etc/hosts
+#     blockinfile:
+#       path: /etc/hosts
+#       block: |
+#        {{haproxy01_ip}} haproxy01
+#        {{haproxy02_ip}} haproxy02
+#        {{haproxy03_ip}} haproxy03

@@ -1,0 +1,21 @@
+---
+ - name: Install haproxy 
+   hosts: haproxy
+   become: true
+   vars_files:
+    - /root/okestroiaas/variable/common_vars/main.yml
+   tasks:
+   - name: haproxy install
+     apt:
+       update-cache: yes
+       name:
+         - haproxy
+       state: present
+
+   - name: Add mappings to /etc/hosts
+     blockinfile:
+       path: /etc/hosts
+       block: |
+        {{haproxy01_ip}} haproxy01
+        {{haproxy02_ip}} haproxy02
+        {{haproxy03_ip}} haproxy03

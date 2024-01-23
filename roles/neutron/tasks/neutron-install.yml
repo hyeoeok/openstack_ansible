@@ -1,0 +1,12 @@
+---
+- name: neutron_pakage_install  
+  apt:
+    update_cache: yes
+    name: "{{ item }}" 
+    state: present
+  with_items:
+  - neutron-server
+  - neutron-openvswitch-agent
+  - neutron-dhcp-agent
+  - neutron-l3-agent
+  - neutron-metadata-agent

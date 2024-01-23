@@ -1,0 +1,10 @@
+    - name: masakari pakage install
+      apt:
+        update-cache: yes
+        name:
+          - masakari-host-monitor
+          - masakari-instance-monitor
+          - masakari-process-monitor
+          - pcs
+          - pacemaker-remote
+        state: present

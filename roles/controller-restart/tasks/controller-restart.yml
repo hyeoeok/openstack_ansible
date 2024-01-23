@@ -1,0 +1,45 @@
+---
+- name: Controller Nodes keystone & placement & horizon service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - apache2
+    - memcached
+
+ - name: Controller Nodes glance service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - glance-api
+
+- name: Controller Nodes nova service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - nova-api
+    - nova-scheduler
+    - nova-conductor
+    - nova-novncproxy
+
+- name: Controller Nodes neutron service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - neutron-dhcp-agent
+    - neutron-metadata-agent
+    - neutron-server
+    - neutron-l3-agent
+    - neutron-openvswitch-agent
+    
+- name: Controller Nodes cinder service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - cinder-volume
+    - cinder-backup
+    - cinder-scheduler

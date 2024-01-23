@@ -1,0 +1,15 @@
+clouds:
+  contrabass: 
+    auth:
+{% if enable_tls_internal %}
+      auth_url: https://{{ internal_vip_address }}:15000/v3/
+{% else %}
+      auth_url: http://{{ internal_vip_address }}:15000/v3/
+{% endif %}
+      project_name: admin
+      username: admin
+      password: "{{ keystone_pass }}"
+      user_domain_name: Default
+      project_domain_name: Default
+    interface: internal
+    region_name: RegionOne

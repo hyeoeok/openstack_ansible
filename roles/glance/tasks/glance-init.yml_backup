@@ -1,0 +1,35 @@
+---
+- openstack.cloud.catalog_service:
+     auth:
+        auth_url: https://192.168.30.110:15000/v3
+        project_name: admin
+        username: admin
+        project_domain_name: Default
+        user_domain_name: Default
+        password: cloud1234
+     cacert: /opt/certificate/haproxy-internal.pem
+     state: present
+     name: glance
+     type: image
+     description: OpenStack Image Service
+
+
+- name: Glance endpoint create
+  openstack.cloud.endpoint:
+     auth:
+        auth_url: https://192.168.30.110:15000/v3 
+        project_name: admin
+        username: admin
+        project_domain_name: Default
+        user_domain_name: Default
+        password: cloud1234
+     cacert: /opt/certificate/haproxy-internal.pem
+     service: glance
+     endpoint_interface: "{{ item }}"
+     url: https://{{ internal_vip_address }}:19292
+     region: RegionOne
+     state: present
+  with_items:
+   -  admin
+   -  public
+   -  internal

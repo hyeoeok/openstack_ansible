@@ -1,0 +1,101 @@
+---
+- name: Create Cinder Service
+  openstack.cloud.catalog_service:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: cinder
+    service_type: volumev3
+    description: OpenStack volumev3 Service
+    interface: internal
+
+- name: Create Cinder User
+  openstack.cloud.identity_user:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: cinder
+    password: "{{ keystone_pass }}"
+    domain: default
+    default_project: service
+    interface: internal
+
+- name: Cinder user role assignment
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: cinder
+    role: admin
+    project: service
+    cacert: "{{ internal_fqdn_cert }}"
+    interface: internal
+
+- name: service role create
+  openstack.cloud.identity_role:
+    cloud: contrabass
+    name: service
+    cacert: "{{ internal_fqdn_cert }}"
+    interface: internal
+
+- name: Cinder user role assignmenta in service
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: cinder
+    role: service
+    project: service
+    cacert: "{{ internal_fqdn_cert }}"
+    interface: internal
+
+- name: Nova user role assignment in service
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: nova
+    role: service
+    project: service
+    cacert: "{{ internal_fqdn_cert }}"
+    interface: internal
+
+
+- name: Cinder endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: cinder
+    endpoint_interface: "{{ item }}"
+    url: "http://{{ internal_fqdn }}:18776/v3/%(project_id)s"
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+   -  admin
+   -  public
+   -  internal
+  when: internal_fqdn == external_fqdn
+
+- name: Cinder endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: cinder
+    endpoint_interface: "{{ item }}"
+    url:  "http://{{ internal_fqdn }}:18776/v3/%(project_id)s"
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  admin
+  -  internal
+  when: internal_fqdn != external_fqdn
+
+- name: Cinder public endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: cinder 
+    endpoint_interface: "{{ item }}"
+    url:  "http://{{ external_fqdn }}:18776/v3/%(project_id)s"
+    region: RegionOne
+    state: present
+    interface: internal 
+  with_items:
+  -  public
+  when: internal_fqdn != external_fqdn

@@ -1,0 +1,10 @@
+---
+- name: Ceph Package Install  
+  apt:
+    update-cache: yes
+    name: 
+      - "{{ item }}"
+    state: present
+  with_items:
+    - ceph-common
+    - python3-rbd 

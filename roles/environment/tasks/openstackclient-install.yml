@@ -1,0 +1,7 @@
+---
+- name: install python-openstackclient
+  apt:
+    update_cache: yes
+    name:
+       - python3-openstackclient
+    state: present

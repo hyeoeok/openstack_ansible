@@ -1,0 +1,23 @@
+---
+- name: Neutron file Settings
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+    backup: true
+  with_items:
+    - { src: 'neutron.conf.j2',dest: '/etc/neutron/neutron.conf',owner: 'neutron',group: 'neutron',mode: '0644' }
+    - { src: 'dhcp_agent.ini.j2',dest: '/etc/neutron/dhcp_agent.ini',owner: 'neutron',group: 'neutron',mode: '0644' }
+    - { src: 'l3_agent.ini.j2',dest: '/etc/neutron/l3_agent.ini',owner: 'neutron',group: 'neutron',mode: '0644' }
+    - { src: 'metadata_agent.ini.j2',dest: '/etc/neutron/metadata_agent.ini',owner: 'neutron',group: 'neutron',mode: '0644' }
+    - { src: 'ml2_conf.ini.j2',dest: '/etc/neutron/plugins/ml2/ml2_conf.ini',owner: 'neutron',group: 'neutron',mode: '0644' }
+    - { src: 'openvswitch_agent.ini.j2',dest: '/etc/neutron/plugins/ml2/openvswitch_agent.ini',owner: 'neutron',group: 'neutron',mode: '0644' }
+  register: neutron_conf
+  notify:
+    - restart neutron-server
+    - restart neutron-dhcp-agent
+    - restart neutron-metadata-agent
+    - restart neutron-l3-agent
+    - restart neutron-openvswitch-agent 

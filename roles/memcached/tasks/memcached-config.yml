@@ -1,0 +1,15 @@
+---
+- name: Copy configuration files
+  template:
+    src: "memcached.conf.j2"
+    dest: /etc/memcached.conf
+    owner: root
+    group: root
+    mode: 0644
+  register: memcached_conf
+
+- name: service start 
+  service:
+    name: memcached.service
+    state: restarted
+  when: memcached_conf is changed

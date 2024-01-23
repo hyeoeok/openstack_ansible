@@ -1,0 +1,9 @@
+---
+- name: Create volume type luks
+  openstack.cloud.volume:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: LUKS
+    volume_type: luks
+    interface: internal

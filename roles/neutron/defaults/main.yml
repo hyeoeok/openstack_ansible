@@ -1,0 +1,2 @@
+neutron_dir: /etc/neutron
+neutron_plugin_dir: "{{ neutron_dir }}/plugins/ml2"

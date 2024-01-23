@@ -1,0 +1,12 @@
+---
+- name: placement config file setting
+  template:
+    src: "{{ item }}"
+    dest: /etc/placement/placement.conf
+    owner: placement
+    group: root
+    mode: 0644
+  with_items:
+  - placement.conf.j2
+  register: placement_conf
+  notify: restart apache2..

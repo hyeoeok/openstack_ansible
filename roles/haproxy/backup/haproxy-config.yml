@@ -1,0 +1,16 @@
+---
+- name: haproxy config setting
+  hosts: haproxy
+  become: true
+  vars_files:
+    - /root/okestroiaas/variable/common_vars/main.yml
+  tasks:
+  - name: Copy configuration files
+    template:
+      src: "{{ template_files }}"
+      dest: /etc/haproxy/haproxy.cfg
+      owner: root
+      group: root
+      mode: 0644
+    with_items:
+      ['haproxy.cfg.j2']

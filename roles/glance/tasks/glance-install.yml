@@ -1,0 +1,7 @@
+---
+- name: glance_pakage_install  
+  apt:
+    update_cache: yes
+    name: 
+      - glance
+    state: present

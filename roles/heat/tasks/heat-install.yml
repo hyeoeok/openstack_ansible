@@ -1,0 +1,9 @@
+    - name: heat_pakage_install
+      apt:
+        #update-cache: yes
+        name:
+          - heat-api
+          - heat-api-cfn
+          - heat-engine
+          - python3-heat-dashboard
+        state: present

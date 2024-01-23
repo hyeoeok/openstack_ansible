@@ -1,0 +1,69 @@
+<VirtualHost *:80>
+ServerName {{ ansible_hostname }}
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}:11443%{REQUEST_URI}
+</IfModule>
+<IfModule !mod_rewrite.c>
+RedirectPermanent / https://{{ external_fqdn }}
+</IfModule>
+</VirtualHost>
+<VirtualHost *:11443>
+ServerName {{ ansible_hostname }}
+
+SSLEngine On
+# Remember to replace certificates and keys with valid paths in your environment
+SSLCertificateFile {{ external_cert }}
+SSLCACertificateFile {{ external_fqdn_cert }}
+SSLCertificateKeyFile {{ external_key }}
+SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown
+
+# HTTP Strict Transport Security (HSTS) enforces that all communications
+# with a server go over SSL. This mitigates the threat from attacks such
+# as SSL-Strip which replaces links on the wire, stripping away https prefixes
+# and potentially allowing an attacker to view confidential information on the
+# wire
+Header add Strict-Transport-Security "max-age=15768000"
+
+#WSGIScriptAlias / /usr/share/openstack-dashboard/openstack_dashboard/wsgi/django.wsgi
+#WSGIDaemonProcess horizon user=www-data group=www-data processes=3 threads=10
+#Alias /static /usr/share/openstack-dashboard/openstack_dashboard/static/
+
+WSGIScriptAlias /horizon /usr/share/openstack-dashboard/openstack_dashboard/wsgi.py process-group=horizon
+WSGIDaemonProcess horizon user=horizon group=horizon processes=3 threads=10 display-name=%{GROUP}
+WSGIProcessGroup horizon
+WSGIApplicationGroup %{GLOBAL}
+
+#Alias /static /usr/share/openstack-dashboard/openstack_dashboard/static/
+Alias /static /var/lib/openstack-dashboard/static/
+Alias /horizon/static /var/lib/openstack-dashboard/static/
+
+<Directory /usr/share/openstack-dashboard/openstack_dashboard>
+  Require all granted
+# For Apache http server 2.2 and earlier:
+    #<ifVersion <2.4>
+    #    Order allow,deny
+    #    Allow from all
+    #</ifVersion>
+# For Apache http server 2.4 and later:
+    #<ifVersion >=2.4>
+#The following two lines have been added by bms for error "AH01630: client denied
+#by server configuration:
+#/usr/share/openstack-dashboard/openstack_dashboard/static/dashboard/cssa"
+    #    Options All
+    #    AllowOverride All
+    #    Require all granted
+    #</ifVersion>
+</Directory>
+<Directory /var/lib/openstack-dashboard/static>
+  Options All
+  AllowOverride All
+  Require all granted
+    #<ifVersion >=2.4>
+    #    Options All
+    #    AllowOverride All
+    #    Require all granted
+    #</ifVersion>
+</Directory>
+</VirtualHost>

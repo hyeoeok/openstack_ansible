@@ -1,0 +1,20 @@
+[req]
+prompt = no
+distinguished_name = req_distinguished_name
+
+[req_distinguished_name]
+countryName = KR
+stateOrProvinceName = Seoul
+localityName = Yeouido
+organizationalUnitName = contrabass
+commonName= {{ internal_fqdn }}
+
+
+[v3_req]
+subjectAltName = @alt_names
+
+[alt_names]
+{% if internal_fqdn != internal_vip_address %}
+DNS.1 = {{ internal_fqdn }}
+{% endif %}
+IP.1 = {{ internal_vip_address }}

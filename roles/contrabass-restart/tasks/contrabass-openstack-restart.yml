@@ -1,0 +1,46 @@
+---
+- name: Contrabass Nodes keystone & placement & horizon service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - apache2
+    - memcached
+
+- name: Contrabass Nodes glance service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - glance-api
+
+- name: Contrabass Nodes nova service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - nova-api
+    - nova-scheduler
+    - nova-conductor
+    - nova-novncproxy
+    - nova-compute
+
+- name: Contrabass Nodes neutron service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - neutron-dhcp-agent
+    - neutron-metadata-agent
+    - neutron-server
+    - neutron-l3-agent
+    - neutron-openvswitch-agent
+    
+- name: Contrabass Nodes cinder service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - cinder-volume
+    - cinder-backup
+    - cinder-scheduler

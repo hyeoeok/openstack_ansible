@@ -1,0 +1,15 @@
+---
+- import_tasks: glance-config-set.yml
+
+# Handlers for glance
+- name: restart glance-api
+  service: name=glance-api state=restarted
+  when: glance_conf is changed
+
+- name: start glance-api
+  service: name=glance-api state=started
+
+- name: stop glance-api
+  service: name=glance-backup state=stoped
+
+

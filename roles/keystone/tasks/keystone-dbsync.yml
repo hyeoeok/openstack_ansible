@@ -1,0 +1,4 @@
+---
+- name: DB sync
+  changed_when: no
+  shell:  /bin/sh -c "keystone-manage db_sync"

@@ -1,0 +1,19 @@
+- name: Create Barbican DB
+  mysql_db:
+    name: barbican
+    state: present
+#    config_file: "/home/{{ ansible_user }}/.my.cnf"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Update mysql barbican password for all barbican accounts
+  no_log: false
+  mysql_user:
+    name: barbican
+    host: "{{ item }}"
+    password: "{{ db_password }}"
+    priv: barbican.*:ALL,GRANT
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  with_items:
+     - localhost
+     - '%'

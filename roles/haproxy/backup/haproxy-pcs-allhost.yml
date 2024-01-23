@@ -1,0 +1,52 @@
+---
+ - name: Install pacemaker 
+   hosts: haproxy
+   become: true
+   vars_files:
+    - /root/okestroiaas/variable/common_vars/main.yml
+   tasks:
+   - name: pcs && pacemaker install
+     apt: 
+       update-cache: yes
+       name:
+         - pacemaker
+         - pcs
+       state: present
+
+   - name: Add mappings to /etc/hosts
+     blockinfile:
+       path: /etc/hosts
+       block: |
+        {{haproxy01_ip}} haproxy01
+        {{haproxy02_ip}} haproxy02
+        {{haproxy03_ip}} haproxy03
+
+   - name: all service stop
+     service: 
+       name: "{{ item }}"
+       state: stopped
+     with_items:
+     - pcsd
+     - pacemaker
+     - corosync
+       
+   - name: hauser password change
+     user: 
+       name: hacluster
+       password: $6$szaAnpDvpZeD/eWC$k5eV8EPZ7DIesrQn.9iJvWwZM5ZCRyktQ2.OegLd9qMQsjgnt.wnqtw0GGgvFsokvfxoWroTZPnh8/r5seQuR1
+       update_password: always
+
+   - name: pcsd started
+     service: 
+       name: "{{ item }}"
+       state: started
+     with_items:
+     - pcsd
+
+   - name: haproxy sysctl -p
+     sysctl:
+       name: net.ipv4.ip_nonlocal_bind
+       value: 1
+       sysctl_set: yes
+       state: present
+       reload: yes

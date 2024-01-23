@@ -1,0 +1,9 @@
+---
+- include_tasks: chrony-install.yml
+  when: inventory_hostname in groups["openstack"]
+
+- include_tasks: chrony-primary-config-set.yml
+  when: inventory_hostname in groups["ntp_server"]
+
+- include_tasks: chrony-secondary-config-set.yml
+  when: inventory_hostname in groups["ntp_server_secondary"]

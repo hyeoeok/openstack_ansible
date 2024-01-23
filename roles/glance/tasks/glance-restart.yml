@@ -1,0 +1,8 @@
+---
+    - name: glance-api restart
+      service: 
+        name: "{{ item }}"
+        state: restarted
+      with_items: 
+        - glance-api
+      

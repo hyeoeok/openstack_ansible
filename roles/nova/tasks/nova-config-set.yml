@@ -1,0 +1,16 @@
+---
+- name: nova-api config file setting
+  template:
+    src: "{{ item }}"
+    dest: /etc/nova/nova.conf
+    owner: nova
+    group: nova
+    mode: 0644
+  with_items:
+  - nova.conf.j2
+  register: nova_conf
+  notify: 
+    - restart nova-api
+    - restart nova-scheduler
+    - restart nova-conductor
+    - restart nova-novncproxy

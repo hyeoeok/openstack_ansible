@@ -1,0 +1,14 @@
+- include_tasks: glance-install.yml 
+
+- include_tasks: glance-config-set.yml
+
+- include_tasks: glance-database-create.yml
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: glance-dbsync.yml
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: glance-init.yml 
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: glance-restart.yml

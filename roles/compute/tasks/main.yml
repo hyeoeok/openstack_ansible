@@ -1,0 +1,20 @@
+- include_tasks: compute-install.yml 
+  when: inventory_hostname in groups["compute"]
+
+- include_tasks: nova-compute-config-set.yml
+  when: inventory_hostname in groups["compute"]
+
+#- include_tasks: nova-migration.yml
+#  when: inventory_hostname in groups["compute"]
+
+- include_tasks: neutron-compute-config-set.yml
+  when: inventory_hostname in groups["compute"]
+
+- include_tasks: ovs-init.yml
+  when: inventory_hostname in groups["compute"]
+
+- include_tasks: compute-restart.yml
+  when: inventory_hostname in groups["compute"]
+
+- include_tasks: compute-discover.yml
+  when: inventory_hostname in groups["controller"][0]

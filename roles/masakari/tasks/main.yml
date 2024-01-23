@@ -1,0 +1,36 @@
+---
+- include_tasks: masakari-database-create.yml
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: masakari-init.yml
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: masakari-con-install.yml
+  when: inventory_hostname in groups["controller"]
+
+- include_tasks: masakari-con-config-set.yml
+  when: inventory_hostname in groups["controller"]
+
+- include_tasks: masakari-dbsync.yml
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: masakari-restart.yml
+  when: inventory_hostname in groups["controller"]
+
+- include_tasks: masakari-com-install.yml
+  when: inventory_hostname in groups["compute"]
+
+- include_tasks: masakari-com-config-set.yml
+  when: inventory_hostname in groups["compute"]
+
+- include_tasks: masakari-pcs-com-set.yml
+  when: 
+    - inventory_hostname in groups["compute"]
+
+- include_tasks: masakari-pcs-con-set.yml
+  when: 
+    - inventory_hostname in groups["controller"][0]
+
+- include_tasks: masakari-dashboard.yml
+  when: 
+    - inventory_hostname in groups["controller"]

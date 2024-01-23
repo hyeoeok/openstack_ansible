@@ -1,0 +1,4 @@
+---
+    - name: DB sync
+      changed_when: no
+      shell: su -s /bin/bash barbican -c "barbican-manage db upgrade"

@@ -1,0 +1,9 @@
+---
+- name: compute_pakage_install  
+  apt:
+    update_cache: yes
+    name: "{{ item }}" 
+    state: present
+  with_items:
+  - nova-compute 
+  - neutron-openvswitch-agent

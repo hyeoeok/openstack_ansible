@@ -1,0 +1,106 @@
+---
+- name: Octavia User Create
+  openstack.cloud.identity_user:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: octavia 
+    password: "{{ keystone_pass }}"
+    domain: default
+    interface: internal
+    default_project: service
+
+- name: Octavia Role Create
+  openstack.cloud.identity_role:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: "{{ item }}"
+    interface: internal
+  with_items:
+    - load-balancer_admin
+    - load-balancer_observer
+    - load-balancer_member
+
+- name: Octavia user role assignment 
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: "{{ item.user }}"
+    role: "{{ item.role }}"
+    project: "{{ item.project }}"
+    interface: internal
+    cacert: "{{ internal_fqdn_cert }}"
+    interface: internal
+  with_items:
+    - { user: 'admin', role: 'admin',project: 'admin' }
+    - { user: 'admin', role: 'load-balancer_admin',project: 'admin' }
+    - { user: 'admin', role: 'load-balancer_observer',project: 'admin' }
+    - { user: 'admin', role: 'load-balancer_member',project: 'admin' }
+    - { user: 'octavia', role: 'admin',project: 'admin' }
+    - { user: 'octavia', role: 'load-balancer_admin',project: 'admin' }
+    - { user: 'octavia', role: 'load-balancer_observer',project: 'admin' }
+    - { user: 'octavia', role: 'load-balancer_member',project: 'admin' }
+    - { user: 'admin', role: 'admin',project: 'service' }
+    - { user: 'admin', role: 'load-balancer_admin',project: 'service' }
+    - { user: 'admin', role: 'load-balancer_observer',project: 'service' }
+    - { user: 'admin', role: 'load-balancer_member',project: 'service' }
+    - { user: 'octavia', role: 'admin',project: 'service' }
+    - { user: 'octavia', role: 'load-balancer_admin',project: 'service' }
+    - { user: 'octavia', role: 'load-balancer_observer',project: 'service' }
+    - { user: 'octavia', role: 'load-balancer_member',project: 'service' }
+
+- name: Create Service Project
+  openstack.cloud.catalog_service:
+    cacert: "{{ internal_fqdn_cert }}"
+    cloud: contrabass
+    state: present
+    name: octavia
+    description: OpenStack Octavia
+    enabled: True
+    service_type: load-balancer 
+    interface: internal
+
+- name: Octavia endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: octavia
+    endpoint_interface: "{{ item }}"
+    url: https://{{ internal_fqdn }}:19876
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+   -  admin
+   -  public
+   -  internal
+  when: internal_fqdn == external_fqdn 
+
+- name: Octavia endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: octavia
+    endpoint_interface: "{{ item }}"
+    url: https://{{ internal_fqdn }}:19876
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  admin
+  -  internal
+  when: internal_fqdn != external_fqdn
+
+- name: Octavia public endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: octavia
+    endpoint_interface: "{{ item }}"
+    url: https://{{ external_fqdn }}:19876
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  public
+  when: internal_fqdn != external_fqdn

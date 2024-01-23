@@ -1,0 +1,8 @@
+cd {{ masakari_dashboard_dir }}/masakari-dashboard-wallaby
+python3 setup.py install
+cp {{ masakari_dashboard_dir }}/masakari-dashboard-wallaby/masakaridashboard/local/enabled/_50_masakaridashboard.py /usr/share/openstack-dashboard/openstack_dashboard/enabled/
+cp {{ masakari_dashboard_dir }}/masakari-dashboard-wallaby/masakaridashboard/local/local_settings.d/_50_masakari.py /usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.d/
+cp {{ masakari_dashboard_dir }}/masakari-dashboard-wallaby/masakaridashboard/conf/masakari_policy.json /usr/share/openstack-dashboard/openstack_dashboard/conf/
+cd /usr/share/openstack-dashboard/
+python3 manage.py collectstatic --noinput
+python3 manage.py compress

@@ -1,0 +1,10 @@
+- name: manila python code settings
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: 'manila.py.j2',dest: '/usr/lib/python3/dist-packages/manila_ui/api/manila.py',owner: 'root',group: 'root',mode: '0644' }
+    - { src: 'test_manila.py.j2',dest: '/usr/lib/python3/dist-packages/manila_ui/tests/api/test_manila.py',owner: 'root',group: 'root',mode: '0644' }

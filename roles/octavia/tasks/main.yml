@@ -1,0 +1,20 @@
+- include_tasks: octavia-install.yml 
+
+- include_tasks: octavia-init.yml 
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: octavia-cert-copy.yml
+  when: inventory_hostname in groups["controller"]
+
+- include_tasks: octavia-config-set.yml
+  when: inventory_hostname in groups["controller"][0]
+
+
+- include_tasks: octavia-database-create.yml
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: octavia-dbsync.yml
+  when: inventory_hostname in groups["controller"][0]
+
+
+- include_tasks: octavia-restart.yml

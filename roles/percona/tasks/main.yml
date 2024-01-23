@@ -1,0 +1,19 @@
+---
+- include_tasks: install_password_setting.yml
+  when: percona_version == 5.7
+
+- include_tasks: install_password_setting-8.yml
+  when: percona_version == 8
+
+- include_tasks: config_setting.yml
+  when: percona_version == 5.7
+
+- include_tasks: config_setting-8.yml
+  when: percona_version == 8
+
+- include_tasks: primary_boot.yml
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: non_primary_boot.yml
+  when: inventory_hostname in groups["controller"][1:]
+

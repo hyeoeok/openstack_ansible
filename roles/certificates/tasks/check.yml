@@ -1,0 +1,37 @@
+---
+- name: Checking Internal Certificate 
+  community.crypto.x509_certificate_info:
+    path: "{{ internal_cert }}"
+  register: int_cert_check
+  when: enable_tls_internal | bool
+
+- name: Checking Internal Certificate VIP
+  debug:
+    var: int_cert_check.issuer.commonName
+#  register: int_vip_check
+#  when: internal_fqdn == int_cert_check.issuer.commonName
+
+- name: Checking External Certificate 
+  community.crypto.x509_certificate_info:
+    path: "{{ external_cert }}"
+  register: ext_cert_check
+  when: enable_tls_external | bool
+
+- name: Checking External Certificate VIP
+  debug:
+    var: ext_cert_check.issuer.commonName
+#  register: ext_vip_check
+  when: external_fqdn != ext_cert_check.issuer.commonName
+
+
+- name: Create Certificate Backup Dir
+  file:
+    path: /opt/certificate_backup/{{ ansible_date_time.date }}
+    state: "directory"
+    mode: "0770"
+  when: (external_fqdn != ext_cert_check.issuer.commonName) or (internal_fqdn != int_cert_check.issuer.commonName)
+    
+
+- name: Move Old Certificate
+  command: mv -f "{{ certificates_dir }}" "{{ cert_backup_dir }}/{{ ansible_date_time.date }}"
+  when: (external_fqdn != ext_cert_check.issuer.commonName) or (internal_fqdn != int_cert_check.issuer.commonName)

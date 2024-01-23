@@ -1,0 +1,30 @@
+#- import_tasks: check.yml
+#  when:
+#    - inventory_hostname in groups["deploy"]
+#    - enable_openstack_tls | bool
+#    - ("external_fqdn" != ext_cert_check.issuer.commonName) or ("internal_fqdn" != int_cert_check.issuer.commonName)
+
+#- include_tasks: check.yml
+#  when: 
+#    - inventory_hostname in groups["deploy"]
+#    #- ("external_fqdn" != ext_cert_check.issuer.commonName) or ("internal_fqdn" != int_cert_check.issuer.commonName)
+
+#- include_tasks: check.yml
+#  when: inventory_hostname in groups["deploy"]
+
+- include_tasks: generate-root.yml
+  when: 
+    - inventory_hostname in groups["deploy"]
+#    - ("internal_fqdn" != int_cert_check.issuer.commonName) or ("external_fqdn" != ext_cert_check.issuer.commonName)
+
+- include_tasks: generate.yml
+  when: 
+    - inventory_hostname in groups["deploy"]
+#    - ("internal_fqdn" != int_cert_check.issuer.commonName) or ("external_fqdn" != ext_cert_check.issuer.commonName)
+
+- include_tasks: copy-cert.yml
+  when:
+    - inventory_hostname in groups["openstack"]
+#    #- int_vip_check != internal_fqdn or ext_vip_check != external_fqdn
+#    #- internal_fqdn != int_cert_check.issuer.commonName or external_fqdn == ext_cert_check.issuer.commonName
+#    - ("internal_fqdn" != int_cert_check.issuer.commonName) or ("external_fqdn" != ext_cert_check.issuer.commonName)

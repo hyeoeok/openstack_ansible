@@ -1,0 +1,88 @@
+---
+- name: sleep
+  wait_for:
+    timeout: 10
+
+#- name: Create a service for glance
+#  openstack.cloud.os_keystone_service:
+#     service: service
+#     endpoint_interface: public
+#     url: http://controller:9292
+#     region: RegionOne
+#     state: present
+
+#environment:
+#  OS_PROJECT_DOMAIN_NAME: Default
+#  OS_USER_DOMAIN_NAME: Default
+#  OS_PROJECT_NAME: admin
+#  OS_USERNAME: admin
+#  OS_PASSWORD: "{{ keystone_pass }}"
+#  OS_AUTH_URL: https://{{ internal_vip_address }}:15000/v3/
+#  OS_IDENTITY_API_VERSION: 3
+#  OS_IMAGE_API_VERSION: 2
+#  OS_CACERT: "{{ certificates_dir}}/haproxy-internal.pem"
+#  OS_INTERFACE: internal
+
+#- name: certification Keystone
+#  shell: source /root/contrabass-openrc
+#  args:
+#     executable: /bin/bash
+ 
+- name: Create Service Project
+  openstack.cloud.project:
+    cacert: "{{ internal_fqdn_cert }}"
+    cloud: contrabass
+    state: present
+    name: service
+    enabled: true
+    description: Service Project
+    domain_id: default
+    interface: internal
+
+- name: admin user role assignment to service project
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: admin
+    role: admin
+    project: service
+    interface: internal
+    cacert: "{{ internal_fqdn_cert }}"
+    interface: internal
+    
+#- name: Create projects 
+#  command: 'openstack project create --domain default --description "{{ item.value }}" {{ item.key }}'
+#  register: project_create
+#  with_dict:
+#    service: Service Project
+#  environment:
+#    OS_PROJECT_DOMAIN_NAME: Default
+#    OS_USER_DOMAIN_NAME: Default
+#    OS_PROJECT_NAME: admin
+#    OS_USERNAME: admin
+#    OS_PASSWORD: "{{ keystone_pass }}"
+#    OS_AUTH_URL: https://{{ internal_vip_address }}:15000/v3/
+#    OS_IDENTITY_API_VERSION: 3
+#    OS_IMAGE_API_VERSION: 2
+#    OS_CACERT: "{{ certificates_dir}}/haproxy-internal.pem"
+#    OS_INTERFACE: internal
+#  when: enable_openstack_tls | bool
+#  register: project_create
+
+#- name: Create projects 
+#  command: 'openstack project create --domain default --description "{{ item.value }}" {{ item.key }}'
+#  register: project_create
+#  with_dict:
+#    service: Service Project
+#  environment:
+#    OS_PROJECT_DOMAIN_NAME: Default
+#    OS_USER_DOMAIN_NAME: Default
+#    OS_PROJECT_NAME: admin
+#    OS_USERNAME: admin
+#    OS_PASSWORD: "{{ keystone_pass }}"
+#    OS_AUTH_URL: https://{{ internal_vip_address }}:15000/v3/
+#    OS_IDENTITY_API_VERSION: 3
+#    OS_IMAGE_API_VERSION: 2
+#  when: enable_openstack_tls == false
+#  register: project_create
+
+

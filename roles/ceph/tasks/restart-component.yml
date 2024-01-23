@@ -1,0 +1,21 @@
+---
+- name: controller service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - apache2
+    - cinder-volume
+    - cinder-scheduler
+    - cinder-backup
+    - glance-api
+  when: inventory_hostname in groups["controller"]   
+
+- name: compute service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - nova-compute
+  when: inventory_hostname in groups["compute"]   
+

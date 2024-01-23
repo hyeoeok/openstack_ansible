@@ -1,0 +1,19 @@
+---
+- name: copy percona-release deb file
+  copy:
+    src: '{{ item }}'
+    dest: /root/
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+   - percona-release_latest.generic_all.deb
+
+- name: deb files install && delete
+  shell: dpkg -i /root/percona-release_latest.generic_all.deb && rm -rf /root/percona-release_latest.generic_all.deb
+
+- name: apt update
+  shell: apt update
+
+- name: percona repo enable
+  shell: percona-release setup pxc80

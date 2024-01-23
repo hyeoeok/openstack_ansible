@@ -1,0 +1,10 @@
+---
+    - name: cinder restart
+      service: 
+        name: "{{ item }}"
+        state: restarted
+      with_items: 
+        - apache2 
+        - cinder-scheduler
+        - cinder-volume
+        - cinder-backup

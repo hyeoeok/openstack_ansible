@@ -1,0 +1,20 @@
+- include_tasks: barbican-install.yml 
+  when: inventory_hostname in groups["controller"]
+
+- include_tasks: barbican-init.yml 
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: barbican-config-set.yml
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: barbican-database-create.yml
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: barbican-dbsync.yml
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: luks-settings.yaml
+
+
+- include_tasks: barbican-restart.yml
+  when: inventory_hostname in groups["controller"]

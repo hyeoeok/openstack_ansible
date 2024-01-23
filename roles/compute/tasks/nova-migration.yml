@@ -1,0 +1,29 @@
+---
+- name: nova user active
+  command: usermod -s /bin/bash nova
+
+- name: make /var/lib/nova/.ssh
+  changed_when: no
+  shell: mkdir -p /var/lib/nova/.ssh && echo 'StrictHostKeyChecking no' >> /var/lib/nova/.ssh/config && chown -R nova. /var/lib/nova/.ssh
+  ignore_errors: yes
+
+- name: ssh key copy
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: 'id_rsa',dest: '/var/lib/nova/.ssh/',owner: 'nova',group: 'nova',mode: '0600' }
+
+- name: ssh authorized_keys copy
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: 'authorized_keys.j2',dest: '/var/lib/nova/.ssh/authorized_keys',owner: 'nova',group: 'nova',mode: '0644' }
+

@@ -1,0 +1,8 @@
+    - name: masakari pakage install
+      apt:
+        update-cache: yes
+        name:
+          - masakari-api
+          - masakari-engine
+          - python3-masakariclient
+        state: present

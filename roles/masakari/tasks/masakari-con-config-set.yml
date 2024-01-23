@@ -1,0 +1,14 @@
+---
+- name: masakari config file setting
+  template:
+    src: "{{ item }}"
+    dest: /etc/masakari/masakari.conf
+    owner: masakari
+    group: root
+    mode: 0644
+  with_items:
+  - masakari.conf.j2
+  register: masakari_conf
+  notify: 
+  - restart masakari-api
+  - restart masakari-engine

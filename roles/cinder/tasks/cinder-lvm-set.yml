@@ -1,0 +1,21 @@
+---
+- name: tgt package install
+  apt:
+    update-cache: yes
+    name:
+      - tgt
+    state: present
+
+- name: vgcreate shell script init
+  ansible.builtin.script: /root/okestro-openstack_deploy/roles/cinder/files/vgcreate.sh
+  ignore_errors: true
+
+- name: tgt setting
+  shell: echo 'include /var/lib/cinder/volumes/*' > /etc/tgt/conf.d/cinder.conf
+
+- name: tgt restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - tgt

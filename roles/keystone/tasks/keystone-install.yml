@@ -1,0 +1,8 @@
+---
+- name: keystone_pakage_install  
+  apt:
+    update-cache: yes
+    name: 
+      - keystone
+    state: present
+

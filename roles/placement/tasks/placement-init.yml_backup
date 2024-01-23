@@ -1,0 +1,59 @@
+---
+- openstack.cloud.catalog_service:
+     auth:
+        auth_url: https://{{ internal_vip_address }}:15000/v3
+        project_name: admin
+        username: admin
+        project_domain_name: Default
+        user_domain_name: Default
+        password: cloud1234
+     cacert: "{{ internal_fqdn_cert }}"
+     state: present
+     name: placement
+     type: image
+     description: OpenStack placement-api Service
+
+
+- openstack.cloud.identity_user:
+     auth:
+        auth_url: https://{{ internal_vip_address }}:15000/v3
+        project_name: admin
+        username: admin
+        project_domain_name: Default
+        user_domain_name: Default
+        password: cloud1234
+     cacert: "{{ internal_fqdn_cert }}"
+     state: present
+     name: placement
+     password: "{{ service_pass }}"
+     domain: default
+     default_project: service
+
+- name: placement user role assignment 
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: placement
+    role: admin
+    project: service
+
+
+
+- name: placement endpoint create
+  openstack.cloud.endpoint:
+     auth:
+        auth_url: https://{{ internal_vip_address }}:15000/v3 
+        project_name: admin
+        username: admin
+        project_domain_name: Default
+        user_domain_name: Default
+        password: cloud1234
+     cacert: "{{ internal_fqdn_cert }}"
+     service: placement
+     endpoint_interface: "{{ item }}"
+     url: https://{{ internal_vip_address }}:18778 
+     region: RegionOne
+     state: present
+  with_items:
+   -  admin
+   -  public
+   -  internal

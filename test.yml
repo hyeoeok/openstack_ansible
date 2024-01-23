@@ -1,0 +1,249 @@
+- name: Facts Data type
+  hosts: controller[0]
+#  gather_facts: true
+
+  tasks:
+    #- name: test
+    #  debug:
+    #    msg: "{{ ansible_ens192.ipv4.address }}"
+    #  #with_dict: "{{ containerd_insecure_registries }}"
+
+    #- name: test-1
+    #  community.crypto.x509_certificate_info:
+    #    path: "{{ external_cert }}"
+    #    #issuer:
+    #    #  - commonName: "192.168.151.210"
+    #  register: test
+
+    #- name: test-2
+    #  debug:
+    #    var: test.issuer.commonName
+    #  register: test_cn
+    #  #when: external_fqdn == test.issuer.commonName
+    #- name: time test
+    #  debug:
+    #    var: ansible_date_time.date
+    #  register: timestemp
+    
+    #- name: time dir 
+    #  file:
+    #    path: /opt/certificate_backup/{{ ansible_date_time.date }}
+    #    state: "directory"
+    #    mode: "0770"
+    #- debug:
+        #msg: test 123 "{{ item }}"
+        #var: ansible_facts.services
+    #- name: test
+    #  command: pcs status
+    #  register: pcs_status_check
+    #  when: inventory_hostname in groups["controller"][0]
+
+    #- name: test
+    #  command: crm_verify --live-check
+    #  register: pcs_remote
+    #  when: inventory_hostname in groups["compute"][4]
+    #  ignore_errors: true
+
+    #- name: test2
+    #  debug:
+    #    msg: "{{pcs_remote.stderr}}"
+    #  when: 
+    #    - inventory_hostname in groups["compute"][4]
+
+    #- name: test3
+    #  debug:
+    #    msg: test123123
+    #  when: 
+    #    - inventory_hostname in groups["compute"][4]
+    #    - ("Transport endpoint is not connected" not in pcs_remote.stderr)
+    #- name: pcs add remote node
+    #  command: pcs cluster node add-remote "{{ item }}"
+    #  with_items:
+    #  - "{{ groups.compute }}"
+    #  register: already_remote
+    #  #failed_when: already_remote.rc == 0 
+    #  ignore_errors: true
+    #  #ignore_errors: ("already exists" in  already_remote.stderr) | true
+    #  failed_when: ("already exists" in  already_remote.stderr)
+    #  when: inventory_hostname in groups["controller"][0]
+    #- name: masakari dashboard files in variable
+    #  find:
+    #    paths: "{{ test_dir }}"
+    #    #recurse: true
+    #    patterns: ^masakari-dashboard*
+    #    use_regex: true
+    #    file_type: "{{ item }}"
+    #  register: dashboard_files
+    #  with_items:
+    #  #- file
+    #  - directory
+
+    #- name: msg 
+    #  debug:
+    #    msg: "{{ dashboard_files.path }}"
+
+    #- name: delete dashboard files
+    #  file:
+    #    path: "{{ item.path }}/"
+    #    state: absent
+    #  with_items: 
+    #  #- "{{ dashboard_files.files }}"
+    #  - "{{ dashboard_files.directory }}"
+    #  #loop_control:
+    #  #  label: "{{ item.path }}"
+    
+    #- name: test
+    #  pip_package_info:
+    #    clients: ['pip3']
+    #    #name: masakari-dashboard
+    #  register: masakari_dashboard_check
+
+    #- name: 
+    #  debug:
+    #    msg: "{{ masakari_dashboard_check.packages.pip3 }}"
+    #  when: ("masakari-dashboard" in masakari_dashboard_check.packages.pip3)
+
+    #- name: test2
+    #  debug:
+    #    msg: yes
+    #  when: register
+
+    #- name: awteatwe-controller
+    #  debug: 
+    #    msg: "{{ pcs_status_check.stdout }}"
+    #  when: inventory_hostname in groups["controller"][0]
+
+    #- name: awteatwe-compute
+    #  debug: 
+    #    msg: "{{ pcs_status_check.stdout }}"
+    #  when: inventory_hostname in groups["compute"][4]
+
+    #- name: check_test
+    #  service:
+    #    name: pacemaker_remote
+    #    state: stopped
+    #  when: 
+    #    - inventory_hostname in groups["compute"]
+    #    - pcs_status_check.stdout is not search('{{haproxy_com_member}}')
+ #debug:
+        #msg: "{{ pcs_status_check.stdout_lines }}.split(':')[0]"
+        #msg: "good"
+      #when: ( "{{ haproxy_com_member }}" not in pcs_status_check.stdout )
+
+  #when: ("100% packet loss" in external_vip_check.stdout) or ("100% packet loss" in internal_vip_check.stdout)
+
+
+
+     #- name: service test
+     #  service:
+     #    name: pacemaker-remote
+     #  register: pacemaker_remote_check
+
+     #- name: service check test
+     #  debug:
+     #    msg: "{{ pacemaker_remote_check.status.ActiveState }}"
+     #  when: pacemaker_remote_check.status.ActiveState == "active"
+
+    #- name: test
+    #  command: pcs status
+    #  register: pcs_test
+
+    #- name: test2
+    #  debug:
+    #    msg: pcs_test.stdout_lines
+      
+      
+      #with_items: "{{ groups.compute }}"  
+    #- debug:
+    #    msg: "{{ hostvars[groups.compute] }}"  #"{{ hypervisor_member | join (' ') }}"
+
+      #vars:
+        #hypervisor_member: "{{ inventory_hostname in groups['compute'][0:] }}" 
+        #hypervisor_member: 
+        #  - "{{ inventory_hostname in groups['compute'][0:] }}"
+        #hypervisor_member: 
+        #  - "{{ hostvars[groups.compute] }}"
+    
+
+#issuer": {
+#            "commonName": "192.168.151.210",
+
+      #community.crypto.openssl_signature:
+      #  privatekey_path: /opt/certificate/private/external/external_key.pem
+      #  path: /opt/certificate/private/external/haproxy-external.pem
+      #register: sig
+     
+    #- name: test-2 
+    #  community.crypto.openssl_signature_info:
+    #    certificate_path: /opt/certificate/private/external/external_crt.pem
+    #    path: /opt/certificate/private/external/haproxy-external.pem
+    #    signature: "{{ sig.signature }}"
+    #    #signature: "{{ external_fqdn }}"
+    #  register: verify
+   
+    #- name: test-3
+    #  assert:
+    #    that:
+    #      - verify.valid
+
+#community.crypto.x509_certificate_info:
+
+      #shell: /usr/bin/openssl x509 -in {{ external_cert }} --text --noout
+       
+      
+      
+    #- name: ansible hosts vars
+      #debug:
+      #  var: hostvars
+    - name: AnsibleUnsafeText
+      debug: 
+    #    #var: ansible_facts['distribution'] | type_debug 
+    #    var: {{ ansible_user }}
+        #var: {{ hostvars[openstack]['ansible_'~int_api_interface]['default_ipv4']['address'] }}
+        var: {{ hostvars[openstack]['ansible_'~int_api_interface].ipv4.address }}
+
+    
+#    - name: get service facts
+#      debug:
+#        var: ansible_facts
+
+    #- name: test
+    #  blockinfile:
+    #    marker: "##{mark} test"
+    #    path: /root/text
+    #    block: "{{ test_value }}"
+    #  when: enable_cinder_custom_conf | bool
+
+    #- name: ping check test
+    #  shell: /usr/bin/ping -c 3 "{{ external_fqdn }}"
+    #  register: ping_check
+    #  ignore_errors: true
+    #  #failed_when: "'100% packet loss' ping_check.stderr"
+     
+    #- name: test
+    #  shell: /usr/bin/touch /root/testtest.txt
+    #  when: '"100% packet loss" in ping_check.stdout'
+
+      #ansible.netcommon.net_ping:
+      #  dest: "{{ internal_fqdn }}"
+      #  count: 3
+      #  state: present
+          
+
+    #- name: service check
+    #  debug:
+    #    var: ansible_facts.services["memcached.service"]
+    #- name: openstack keystone endpoint 
+    #  debug:
+    #    var: openstack.cloud.os_keystone_endpoint
+      
+               
+
+
+     #- name: bond0.300
+     #  debug:
+     #    var: ansible_facts[ '{{ int_api_infterface }}' ]['ipv4']['address']
+
+     #- name: List
+     #  debug:
+     #    var: ansible_facts['eth0']['ipv6'] | type_debug

@@ -1,0 +1,9 @@
+[DEFAULT]
+nova_metadata_host = {{ internal_fqdn }} 
+nova_metadata_port = 18775
+metadata_proxy_shared_secret = {{ keystone_pass }}
+
+{% if enable_openstack_tls %}
+nova_metadata_protocol = https
+auth_ca_cert = {{ internal_fqdn_cert }}
+{% endif %}

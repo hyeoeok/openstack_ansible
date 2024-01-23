@@ -1,0 +1,31 @@
+[DEFAULT]
+debug = False
+
+[api]
+auth_strategy = keystone
+
+
+[keystone_authtoken]
+{% if enable_tls_internal  %}
+www_authenticate_uri = https://{{ internal_vip_address }}:15000
+auth_url = https://{{ internal_vip_address }}:15000
+cafile = {{ internal_fqdn_cert }}
+{% elif enable_tls_internal == false %}
+
+www_authenticate_uri = http://{{ internal_vip_address }}:15000
+auth_url = http://{{ internal_vip_address }}:15000
+{% endif %}
+
+
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = placement
+password = {{ keystone_pass }}
+
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_'~int_api_interface]['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+
+
+[placement_database]
+connection = mysql+pymysql://placement:{{ db_password }}@{{ internal_vip_address }}/placement

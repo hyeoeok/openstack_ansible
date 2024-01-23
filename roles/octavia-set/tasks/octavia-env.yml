@@ -1,0 +1,23 @@
+- name: octavia-env
+  template:
+    src: "cloud.yml.j2"
+    dest: "{{ cloud_dir }}/clouds.yaml"
+    owner: root
+    group: root
+    mode: 0644
+  #blockinfile:
+  #  state: present
+  #  insertafter: EOF
+  #  dest: "{{ cloud_dir }}/clouds.yaml"
+  #  marker: "### {mark} octavia settings ###"
+  #  block: |2
+  #     contrabass-octavia:
+  #       auth:
+  #         auth_url: https://{{ internal_fqdn}}:15000/v3/
+  #         project_name: service
+  #         username: octavia
+  #         password: {{ keystone_pass }}
+  #         user_domain_name: Default
+  #         project_domain_name: Default
+  #       interface: internal
+  #       region_name: RegionOne

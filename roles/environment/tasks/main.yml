@@ -1,0 +1,11 @@
+---
+- include_tasks: localrepo-server-init.yml
+  when: 
+  - inventory_hostname not in groups["deploy"]
+  - use_local_repo == true
+- include_tasks: externalrepo-server-init.yml
+  when:
+  - inventory_hostname not in groups["deploy"]
+  - use_local_repo == false
+- include_tasks: openstackclient-install.yml
+  when: inventory_hostname in groups["controller"]

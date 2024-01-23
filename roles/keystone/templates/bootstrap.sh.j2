@@ -1,0 +1,31 @@
+#!/bin/bash
+
+{% if enable_openstack_tls and external_vip_address is not defined %}
+
+keystone-manage bootstrap --bootstrap-password {{ keystone_pass }} \
+  --bootstrap-admin-url https://{{ internal_vip_address }}:15000/v3/ \
+  --bootstrap-internal-url https://{{ internal_vip_address }}:15000/v3/ \
+  --bootstrap-public-url https://{{ internal_vip_address }}:15000/v3/ \
+  --bootstrap-region-id RegionOne
+
+{% elif enable_openstack_tls and external_vip_address is defined %}
+keystone-manage bootstrap --bootstrap-password {{ keystone_pass }} \
+  --bootstrap-admin-url https://{{ internal_vip_address }}:15000/v3/ \
+  --bootstrap-internal-url https://{{ internal_vip_address }}:15000/v3/ \
+  --bootstrap-public-url https://{{ external_vip_address }}:15000/v3/ \
+  --bootstrap-region-id RegionOne
+
+{% elif enable_openstack_tls == false and external_vip_address is not defined %}
+keystone-manage bootstrap --bootstrap-password {{ keystone_pass }} \
+  --bootstrap-admin-url http://{{ internal_vip_address }}:15000/v3/ \
+  --bootstrap-internal-url http://{{ internal_vip_address }}:15000/v3/ \
+  --bootstrap-public-url http://{{ internal_vip_address }}:15000/v3/ \
+  --bootstrap-region-id RegionOne
+
+{% elif enable_openstack_tls == false and external_vip_address is defined %}
+keystone-manage bootstrap --bootstrap-password {{ keystone_pass }} \
+  --bootstrap-admin-url http://{{ internal_vip_address }}:15000/v3/ \
+  --bootstrap-internal-url http://{{ internal_vip_address }}:15000/v3/ \
+  --bootstrap-public-url http://{{ external_vip_address }}:15000/v3/ \
+  --bootstrap-region-id RegionOne
+{% endif %}

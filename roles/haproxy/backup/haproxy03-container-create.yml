@@ -1,0 +1,81 @@
+---
+- name: create haproxy03 container
+  hosts: controller03
+  become: true
+  vars_files:
+    - /root/okestroiaas/variable/common_vars/main.yml
+  tasks:
+    - name: Create a haproxy03 container
+      lxd_container:
+        name: haproxy03
+        state: started
+        source:
+          type: image
+          fingerprint: "{{ fingerprint }}"
+
+    - name: interface setting 
+      template:
+        src: /root/okestroiaas/template/container_interfaces/haproxy03.yaml.j2
+        dest: /var/snap/lxd/common/lxd/containers/haproxy03/rootfs/etc/netplan/10-lxc.yaml
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: sources.list file copy
+      template:
+        src: "{{ template_files }}"
+        dest: /var/snap/lxd/common/lxd/containers/haproxy03/rootfs/etc/apt/sources.list
+        owner: root
+        group: root
+        mode: 0644
+      with_items:
+        ['sources.list.j2']
+
+    - name: auto setting disable
+      template:
+        src: "{{ template_files }}"
+        dest: /var/snap/lxd/common/lxd/containers/haproxy03/rootfs/root/.vimrc
+        owner: root
+        group: root
+        mode: 0644
+      with_items:
+        ['.vimrc.j2'] 
+
+    - name: restart a container
+      lxd_container:
+        name: haproxy03
+        state: restarted
+
+    - name: update && upgrade 
+      shell: lxc exec haproxy03 -- apt update && apt upgrade -y
+
+    - name: pakage installation
+      shell: lxc exec haproxy03 -- apt install python3-apt openssh-server tree curl tcpdump iperf3 aptitude -y
+
+    - name: set timezone
+      shell: lxc exec haproxy03 -- timedatectl set-timezone Asia/Seoul
+
+    - name: sshd config file copy
+      template:
+        src: "{{ copy_files }}"
+        dest: /var/snap/lxd/common/lxd/containers/haproxy03/rootfs/etc/ssh/sshd_config
+        owner: root
+        group: root
+        mode: 0644
+      with_items:
+        ['sshd_config']
+
+    - name: authorized_keys copy
+      template:
+        src: "{{ copy_files }}"
+        dest: /var/snap/lxd/common/lxd/containers/haproxy03/rootfs/root/.ssh/
+        owner: root
+        group: root
+        mode: 0600
+      with_items:
+        ['authorized_keys']
+
+    - name: restart a container
+      lxd_container:
+        name: haproxy03
+        state: restarted

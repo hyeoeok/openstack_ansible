@@ -1,0 +1,54 @@
+---
+- name: Horizon config file setting 
+  template:
+    src: "{{ item }}"
+    dest: /etc/openstack-dashboard/local_settings.py
+    owner: root
+    group: horizon
+    mode: 0644
+    backup: true
+  with_items:
+  - local_settings.py.j2
+  register: horizon_conf
+  notify: restart apache2
+
+- name: https port changes
+  template:
+    src: "{{ item }}"
+    dest: /etc/apache2/ports.conf
+    owner: root
+    group: horizon
+    mode: 0644
+    backup: true
+  with_items:
+  - ports.conf.j2
+  when: enable_horizon_tls | bool
+
+- name: Horizon enalbe-conf file setting 
+  template:
+    src: "{{ item }}"
+    dest: /etc/apache2/conf-available/openstack-dashboard.conf
+    owner: root
+    group: horizon
+    mode: 0644
+    backup: true
+  with_items:
+  - openstack-dashboard.conf.j2
+  when: enable_horizon_tls | bool
+  register: horizon_conf
+  notify: restart apache2
+
+- name: Horizon old logo backup
+  shell: mv /var/lib/openstack-dashboard/static/dashboard/img/logo.svg /var/lib/openstack-dashboard/static/dashboard/img/logo.svg.old && mv /var/lib/openstack-dashboard/static/dashboard/img/logo-splash.svg /var/lib/openstack-dashboard/static/dashboard/img/logo-splash.svg.old
+
+
+- name: Horizon logo setting
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: 'logo.svg',dest: '/var/lib/openstack-dashboard/static/dashboard/img/logo.svg',owner: 'horizon',group: 'horizon',mode: '0644' }
+    - { src: 'logo-splash.svg',dest: '/var/lib/openstack-dashboard/static/dashboard/img/logo-splash.svg',owner: 'horizon',group: 'horizon',mode: '0644' }

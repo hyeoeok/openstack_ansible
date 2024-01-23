@@ -1,0 +1,9 @@
+    - name: cinder_pakage_install
+      apt:
+        update-cache: yes
+        name:
+          - cinder-api
+          - cinder-scheduler
+          - cinder-volume
+          - cinder-backup
+        state: present

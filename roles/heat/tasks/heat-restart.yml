@@ -1,0 +1,20 @@
+---
+- name: heat enable
+  systemd: 
+    name: "{{ item }}"
+    enabled: yes
+  with_items: 
+      - heat-api
+      - heat-api-cfn
+      - heat-engine
+ 
+- name: heat restart
+  service: 
+    name: "{{ item }}"
+    state: restarted
+  with_items: 
+      - heat-api
+      - heat-api-cfn
+      - heat-engine
+      - apache2
+      - memcached

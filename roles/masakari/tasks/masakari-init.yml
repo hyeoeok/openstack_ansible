@@ -1,0 +1,76 @@
+---
+- name: Create Masakari Service
+  openstack.cloud.catalog_service:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: masakari
+    service_type: instance-ha
+    description: masakari high availability
+    interface: internal
+
+- name: Create Masakari User
+  no_log: true
+  openstack.cloud.identity_user:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: masakari
+    password: "{{ keystone_pass }}"
+    domain: default
+    default_project: service
+    interface: internal
+
+- name: Masakari user role assignment
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: masakari
+    role: admin
+    project: service
+    cacert: "{{ internal_fqdn_cert }}"
+    interface: internal
+
+- name: Masakari endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: masakari
+    endpoint_interface: "{{ item }}"
+    url: "http://{{ internal_fqdn }}:15900/v1/%(tenant_id)s"
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+   -  admin
+   -  public
+   -  internal
+  when: internal_fqdn == external_fqdn
+
+- name: Masakari endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: masakari
+    endpoint_interface: "{{ item }}"
+    url:  "http://{{ internal_fqdn }}:15900/v1/%(tenant_id)s"
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  admin
+  -  internal
+  when: internal_fqdn != external_fqdn
+
+- name: Masakari public endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: masakari 
+    endpoint_interface: "{{ item }}"
+    url:  "http://{{ external_fqdn }}:15900/v1/%(tenant_id)s"
+    region: RegionOne
+    state: present
+    interface: internal 
+  with_items:
+  -  public
+  when: internal_fqdn != external_fqdn

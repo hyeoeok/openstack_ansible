@@ -1,0 +1,13 @@
+---
+- name: glacne-api config file setting 
+  template:
+    src: "{{ item }}"
+    dest: /etc/glance/glance-api.conf 
+    owner: glance
+    group: glance
+    mode: 0644
+    backup: true
+  with_items:
+  - glance-api.conf.j2
+  register: glance_conf
+  notify: restart glance-api

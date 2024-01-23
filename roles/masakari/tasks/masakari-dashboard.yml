@@ -1,0 +1,205 @@
+---
+- name: python3-pip install
+  apt:
+    update-cache: yes
+    name: python3-pip
+    state: present
+
+- name: masakari-dashboard check
+  pip_package_info:
+    clients: ['pip3']
+       #name: masakari-dashboard
+  register: masakari_dashboard_check
+
+
+- name: copy masakari dashboard dir
+  copy:
+    src: masakari-dashboard
+    dest: "{{ masakari_dashboard_dir }}"
+    #owner: root
+    #group: root
+    #mode: 0755
+  when: 
+    - ("masakari-dashboard" not in masakari_dashboard_check.packages.pip3)
+    - openstack_version == "yoga"
+
+- name: copy masakari dashboard dir
+  copy:
+    src: masakari-dashboard-wallaby
+    dest: "{{ masakari_dashboard_dir }}"
+    #owner: root
+    #group: root
+    #mode: 0755
+  when: 
+    - ("masakari-dashboard" not in masakari_dashboard_check.packages.pip3)
+    - openstack_version == "wallaby"
+
+
+- name: copy masakari dashboard shell scripts
+  template:
+    src: masakari-dashboard.sh.j2
+    dest: "{{ masakari_dashboard_dir }}/masakari-dashboard.sh"
+    #owner: root
+    #group: root
+    mode: 0755
+  when: 
+    - ("masakari-dashboard" not in masakari_dashboard_check.packages.pip3)
+    - openstack_version == "yoga"
+
+- name: copy masakari dashboard shell scripts
+  template:
+    src: masakari-dashboard-wallaby.sh.j2
+    dest: "{{ masakari_dashboard_dir }}/masakari-dashboard-wallaby.sh"
+    #owner: root
+    #group: root
+    mode: 0755
+  when:
+    - ("masakari-dashboard" not in masakari_dashboard_check.packages.pip3)
+    - openstack_version == "wallaby"
+
+- name: execute masakari dashboard install scripts
+  shell: ". {{ masakari_dashboard_dir }}/masakari-dashboard.sh"
+  when: 
+    - ("masakari-dashboard" not in masakari_dashboard_check.packages.pip3)
+    - openstack_version == "yoga"
+  notify: restart apache2
+
+- name: execute masakari dashboard install scripts
+  shell: ". {{ masakari_dashboard_dir }}/masakari-dashboard-wallaby.sh"
+  when: 
+    - ("masakari-dashboard" not in masakari_dashboard_check.packages.pip3)
+    - openstack_version == "wallaby"
+  notify: restart apache2
+
+- name: checking masakari dashboard dir 
+  stat:  
+    path: "{{ item }}"
+  with_items:
+  - "{{ masakari_dashboard_dir }}/masakari-dashboard"
+  when: openstack_version == "yoga" 
+  register: check_masakari_dashboard_dir
+
+
+- name: checking masakari dashboard file 
+  stat:  
+    path: "{{ item }}"
+  with_items:
+  - "{{ masakari_dashboard_dir }}/masakari-dashboard.sh"
+  when: openstack_version == "yoga"
+  register: check_masakari_dashboard_file
+
+- name: checking masakari dashboard dir 
+  stat:  
+    path: "{{ item }}"
+  with_items:
+  - "{{ masakari_dashboard_dir }}/masakari-dashboard-wallaby"
+  when: openstack_version == "wallaby"
+  register: check_masakari_dashboard_dir
+
+
+- name: checking masakari dashboard file 
+  stat:  
+    path: "{{ item }}"
+  with_items:
+  - "{{ masakari_dashboard_dir }}/masakari-dashboard-wallaby.sh"
+  when: openstack_version == "wallaby"
+  register: check_masakari_dashboard_dir
+ 
+#- name: test
+#  debug:
+#    msg: "{{ masakari_dashboard_df }}.stat.exists"
+
+#- name: checking masakari dashboard shell scripts
+#  stat:
+#    path: "{{ masakari_dashboard_dir }}/masakari-dashboard.sh"
+#  register: masakari_dashboard_shell
+
+- name: delete dashboard dir
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items: 
+  - "{{ masakari_dashboard_dir }}/masakari-dashboard"
+  when: openstack_version == "yoga"
+
+  #when: check_masakari_dashboard_dir.stat.exists
+
+- name: delete dashboard dir
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items: 
+  - "{{ masakari_dashboard_dir }}/masakari-dashboard-wallaby"
+  when: openstack_version == "wallaby"
+
+- name: delete dashboard files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items: 
+  - "{{ masakari_dashboard_dir }}/masakari-dashboard.sh"
+  when: openstack_version == "yoga"
+  #when: check_masakari_dashboard_file.stat.exists
+
+- name: delete dashboard files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items: 
+  - "{{ masakari_dashboard_dir }}/masakari-dashboard-wallaby.sh"
+  when: openstack_version == "wallaby"
+#- name: delete dashboard files
+#  file:
+#    path: "{{ item }}"
+#    state: absent
+#  with_items: 
+#  - "{{ masakari_dashboard_df }}.stat.path"
+#  when: masakari_dashboard_df.stat.exists
+
+#- name: masakari dashboard files in variable
+#  find:
+#    paths: "{{ masakari_dashboard_dir }}/"
+#    recurse: true
+#    file_type: "{{ item }}"
+#    patterns: ^masakari
+#    use_regex: true
+#  register: dashboard_files
+#  when: masakari_dashboard_dir.stat.exists or masakari_dashboard_shell.stat.exists
+#  with_items:
+#  - file
+#  - directory
+
+#- name: delete dashboard dir
+#  file:
+#    path: "{{ item }}"
+#    state: absent
+#  with_items: 
+#  - "{{ masakari_dashboard_dir.stat.path }}"
+#  - "{{ masakari_dashboard_shell.stat.path }}"
+#  loop_control:
+#    label: "{{ item.path }}"
+  
+
+
+##- name: delete masakari dashboard dir   
+##  file:
+##    path: "{{ masakari_dashboard_dir }}masakari-dashboard"
+##    state: absent
+##  when: masakari_dashboard_dir.stat.exists
+##  with_items:
+##    - absent
+##    #- directory
+##
+##- name: delete masakari shell scripts  
+##  file:
+##    path: "{{ masakari_dashboard_dir }}masakari-dashboard.sh"
+##    state: absent
+##  when: masakari_dashboard_shell.stat.exists
+#
+#
+#- name: apache2 restart
+#  service:
+#    name: "{{ item }}"
+#    state: restarted
+#  with_items:
+#    - apache2

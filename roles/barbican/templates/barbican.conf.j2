@@ -1,0 +1,40 @@
+[DEFAULT]
+sql_connection = mysql+pymysql://barbican:{{ db_password }}@{{ internal_fqdn }}/barbican
+transport_url = rabbit://{% for item in groups['controller'] %}{{ rabbitmq_name }}:{{ keystone_pass }}@{{ hostvars[item]['ansible_'~int_api_interface]['ipv4']['address'] }}{% if not loop.last %},{% endif %}{% endfor %}
+
+bind_port = 9311
+host_href = http://{{ internal_fqdn }}:19311
+log_file = /var/log/barbican/api.log
+
+[oslo_policy]
+policy_file = /etc/barbican/policy.json
+policy_default_rule = default
+
+[crypto]
+namespace = barbican.crypto.plugin
+enabled_crypto_plugins = simple_crypto
+
+[keystone_authtoken]
+{% if enable_openstack_tls %}
+www_authenticate_uri = https://{{ internal_fqdn }}:15000
+auth_url = https://{{ internal_fqdn }}:15000
+cafile = {{ internal_fqdn_cert }}
+{% else %}
+www_authenticate_uri = http://{{ internal_fqdn }}:15000
+auth_url = http://{{ internal_fqdn }}:15000
+{% endif %}
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_'~int_api_interface]['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = barbican 
+password = {{ keystone_pass }}
+
+[secretstore]
+namespace = barbican.secretstore.plugin
+enabled_secretstore_plugins = store_crypto
+
+[simple_crypto_plugin]
+kek = '{{ barbican_kek }}'

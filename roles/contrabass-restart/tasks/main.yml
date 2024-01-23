@@ -1,0 +1,4 @@
+- include_tasks: contrabass-middleware-restart.yml
+  when: inventory_hostname in groups["controller"]
+- include_tasks: contrabass-openstack-restart.yml
+  when: inventory_hostname in groups["controller"]

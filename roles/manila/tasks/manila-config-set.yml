@@ -1,0 +1,16 @@
+---
+- name: manila config file setting
+  template:
+    src: "{{ item }}"
+    dest: /etc/manila/manila.conf
+    owner: manila 
+    group: root
+    mode: 0644
+  with_items:
+  - manila.conf.j2
+  register: manila_conf
+  notify: 
+    - restart manila-api
+    - restart manila-scheduler
+    - restart manila-share
+

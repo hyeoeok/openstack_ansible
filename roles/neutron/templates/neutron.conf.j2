@@ -1,0 +1,75 @@
+[DEFAULT]
+core_plugin = ml2
+allow_overlapping_ips = True
+auth_strategy = keystone
+notify_nova_on_port_status_changes = true
+notify_nova_on_port_data_changes = true
+transport_url = rabbit://{% for item in groups['controller'] %}{{ rabbitmq_name }}:{{ keystone_pass }}@{{ hostvars[item]['ansible_'~int_api_interface]['ipv4']['address'] }}{% if not loop.last %},{% endif %}{% endfor %}
+
+control_exchange=neutron
+auth_strategy=keystone
+dhcp_agent_notification=True
+allow_overlapping_ips=True
+global_physnet_mtu=1500
+vlan_transparent=False
+service_plugins=router,qos,segments,trunk,port_forwarding
+notify_nova_on_port_status_changes=True
+notify_nova_on_port_data_changes=True
+allow_automatic_l3agent_failover=True
+dhcp_load_type=networks
+default_availability_zones=
+{% if groups['controller']|length > 1 %}
+dhcp_agents_per_network = 3
+max_l3_agents_per_router = 3
+l3_ha = True
+{% else %}
+dhcp_agents_per_network = 1
+max_l3_agents_per_router = 1
+{% endif %}
+
+
+[agent]
+root_helper = sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
+
+[database]
+connection = mysql+pymysql://neutron:{{ db_password }}@{{ internal_fqdn }}/neutron
+
+[keystone_authtoken]
+{% if enable_openstack_tls %}
+www_authenticate_uri = https://{{ internal_fqdn }}:15000
+auth_url = https://{{ internal_fqdn }}:15000
+cafile = {{ internal_fqdn_cert }}
+{% else %}
+www_authenticate_uri = http://{{ internal_fqdn }}:15000
+auth_url = http://{{ internal_fqdn }}:15000
+{% endif %}
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_'~int_api_interface]['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = neutron
+password = {{ keystone_pass }}
+
+[oslo_messaging_rabbit]
+
+[nova]
+{% if enable_openstack_tls %}
+auth_url = https://{{ internal_fqdn }}:15000
+cafile = {{ internal_fqdn_cert }}
+{% else %}
+auth_url = http://{{ internal_fqdn }}:15000
+{% endif %}
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+region_name = RegionOne
+project_name = service
+username = nova
+password = {{ keystone_pass }}
+
+endpoint_type = internal
+
+[oslo_concurrency]
+lock_path = /var/lib/neutron/tmp

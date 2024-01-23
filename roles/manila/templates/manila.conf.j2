@@ -1,0 +1,43 @@
+[DEFAULT]
+driver_handles_share_servers = false
+
+
+transport_url = rabbit://{% for host in groups['controller'] %}{{ rabbitmq_name }}:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_'~int_api_interface]['ipv4']['address'] }}:5672{% if not loop.last %},{% endif %}{% endfor %}
+
+
+
+default_share_type = default_share_type
+share_name_template = share-%s
+rootwrap_config = /etc/manila/rootwrap.conf
+api_paste_config = /etc/manila/api-paste.ini
+auth_strategy = keystone
+
+my_ip = {{ hostvars[inventory_hostname]['ansible_'~int_api_interface]['ipv4']['address'] }}
+
+enabled_share_protocols = NFS
+enabled_share_backends = NFS
+os_region_name = RegionOne
+
+[database]
+connection = mysql+pymysql://manila:{{ db_password }}@{{ internal_vip_address }}/manila
+
+[keystone_authtoken]
+{% if enable_tls_internal  %}
+www_authenticate_uri = https://{{ internal_vip_address }}:15000
+auth_url = https://{{ internal_vip_address }}:15000
+cafile = {{ internal_fqdn_cert }}
+{% elif enable_tls_internal == false %}
+www_authenticate_uri = http://{{ internal_vip_address }}:15000
+auth_url = http://{{ internal_vip_address }}:15000
+{% endif %}
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = manila
+password = {{ keystone_pass }}
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_'~int_api_interface]['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+
+
+[oslo_concurrency]
+lock_path = /var/lock/manila

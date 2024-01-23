@@ -1,0 +1,14 @@
+---
+- name: Percona-XtraCluster-DB install
+  hosts: controller01
+  become: true
+  vars_files:
+    - /root/okestroiaas/variable/common_vars/main.yml
+  tasks:
+  - name: Adds replication user
+    no_log: true
+    mysql_user:
+      priv: "*.*:GRANT,RELOAD,REPLICATION CLIENT,LOCK TABLES,PROCESS"
+      user: sstuser
+      password: 's3cretPass'
+      host: localhost

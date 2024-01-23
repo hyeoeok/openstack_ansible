@@ -1,0 +1,16 @@
+---
+- name: heat config file setting
+  template:
+    src: "{{ item }}"
+    dest: /etc/heat/heat.conf
+    owner: heat 
+    group: root
+    mode: 0644
+  with_items:
+  - heat.conf.j2
+  register: heat_conf
+  notify: 
+    - restart heat-api
+    - restart heat-api-cfn
+    - restart heat-engine
+

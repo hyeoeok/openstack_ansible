@@ -1,0 +1,133 @@
+---
+- name: Manila user create
+  openstack.cloud.identity_user:
+     cloud: contrabass
+     cacert: "{{ internal_fqdn_cert }}"
+     state: present
+     name: manila
+     password: "{{ keystone_pass }}"
+     domain: default
+     interface: internal
+     default_project: service
+
+- name: Manila user role assignment
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: manila
+    role: admin
+    project: service
+    interface: internal
+    cacert: "{{ internal_fqdn_cert }}"
+
+- name: Create Manila Service v1
+  openstack.cloud.catalog_service:
+     cloud: contrabass
+     cacert: "{{ internal_fqdn_cert }}"
+     state: present
+     name: manila
+     service_type: share
+     interface: internal
+     description: OpenStack sharev2 Service
+
+
+- name: Create Manila Service v2
+  openstack.cloud.catalog_service:
+     cloud: contrabass
+     cacert: "{{ internal_fqdn_cert }}"
+     state: present
+     name: manilav2
+     service_type: sharev2
+     interface: internal
+     description: OpenStack sharev2 Service
+
+- name: Manila V2 endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ certificates_dir }}/haproxy-internal.pem"
+    service: manilav2
+    endpoint_interface: "{{ item }}"
+    url: "https://{{ internal_fqdn }}:18786/v2"
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+   -  admin
+   -  public
+   -  internal
+  when: internal_fqdn == external_fqdn
+
+- name: Manila V2 endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ certificates_dir }}/haproxy-internal.pem"
+    service: manilav2
+    endpoint_interface: "{{ item }}"
+    url: "https://{{ internal_fqdn }}:18786/v2"
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  admin
+  -  internal
+  when: internal_fqdn != external_fqdn
+
+- name: Manila public V2 endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ certificates_dir }}/haproxy-internal.pem"
+    service: manilav2
+    endpoint_interface: "{{ item }}"
+    url: "https://{{ external_fqdn }}:18786/v2"
+    region: RegionOne
+    state: present
+    interface: internal 
+  with_items:
+  -  public
+  when: internal_fqdn != external_fqdn
+
+
+
+- name: Manila V1 endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ certificates_dir }}/haproxy-internal.pem"
+    service: manila
+    endpoint_interface: "{{ item }}"
+    url: "https://{{ internal_fqdn }}:18786/v1/%(tenant_id)s"
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+   -  admin
+   -  public
+   -  internal
+  when: internal_fqdn == external_fqdn
+
+- name: Manila V1 endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ certificates_dir }}/haproxy-internal.pem"
+    service: manila
+    endpoint_interface: "{{ item }}"
+    url: "https://{{ internal_fqdn }}:18786/v1/%(tenant_id)s"
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  admin
+  -  internal
+  when: internal_fqdn != external_fqdn
+
+- name: Manila public V1 endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ certificates_dir }}/haproxy-internal.pem"
+    service: manila
+    endpoint_interface: "{{ item }}"
+    url: "https://{{ external_fqdn }}:18786/v1/%(tenant_id)s"
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  public
+  when: internal_fqdn != external_fqdn

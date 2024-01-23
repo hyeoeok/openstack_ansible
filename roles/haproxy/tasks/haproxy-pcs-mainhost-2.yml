@@ -1,0 +1,49 @@
+---
+- name: HA cluster setup
+  command: pcs cluster setup openstack {{ haproxy_member }} --force
+
+- name: pcs start all && enable
+  command: "{{ item }}"
+  with_items:
+  - pcs cluster start --all
+  - pcs cluster enable --all
+
+- name: resource create
+  command: "{{ item }}"
+  with_items:
+  - pcs property set stonith-enabled=false
+  - pcs property set no-quorum-policy=ignore
+
+- name: create internal vip
+  command: "{{ item }}"
+  with_items:
+  - pcs resource create int_vip ocf:heartbeat:IPaddr2 ip={{ internal_vip_address }} nic={{ int_api_interface }} cidr_netmask={{ internal_vip_cidr }} op monitor interval=10s
+
+- name: create external vip
+  command: "{{ item }}"
+  with_items:
+  - pcs resource create pub_vip ocf:heartbeat:IPaddr2 ip={{ external_vip_address }} nic={{ external_vip_address }} cidr_netmask={{ external_vip_cidr }} op monitor interval=10s
+  when: external_vip_address is defined
+
+- name: haproxy interanl resource && clone
+  command: "{{ item }}"
+  with_items:
+  - pcs resource create haproxy systemd:haproxy op monitor interval=20s timeout=20
+  - pcs constraint order start int_vip then haproxy kind=Optional
+  - pcs constraint colocation add haproxy with int_vip
+
+
+- name: haproxy external resource && clone
+  command: "{{ item }}"
+  with_items:
+  - pcs constraint order start pub_vip then haproxy kind=Optional
+  - pcs constraint colocation add haproxy with pub_vip
+  when: external_vip_address is defined
+
+- name: service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+  - haproxy
+  when: haproxy_conf is changed

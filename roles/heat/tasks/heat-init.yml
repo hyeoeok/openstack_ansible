@@ -1,0 +1,194 @@
+---
+- name: Heat user create
+  openstack.cloud.identity_user:
+     cloud: contrabass
+     cacert: "{{ internal_fqdn_cert }}"
+     state: present
+     name: heat
+     password: "{{ keystone_pass }}"
+     domain: default
+     interface: internal
+     default_project: service
+
+- name: Heat user role assignment
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: heat
+    role: admin
+    project: service
+    interface: internal
+    cacert: "{{ internal_fqdn_cert }}"
+
+- name: Create Heat Service
+  openstack.cloud.catalog_service:
+     cloud: contrabass
+     cacert: "{{ internal_fqdn_cert }}"
+     state: present
+     name: heat
+     service_type: orchestration
+     interface: internal
+     description: OpenStack orchestration Service
+
+
+- name: Create Heat-cfn Service 
+  openstack.cloud.catalog_service:
+     cloud: contrabass
+     cacert: "{{ internal_fqdn_cert }}"
+     state: present
+     name: heat-cfn
+     service_type: cloudformation
+     interface: internal
+     description: OpenStack cloudformation Service
+
+- name: Heat endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ certificates_dir }}/haproxy-internal.pem"
+    service: heat
+    endpoint_interface: "{{ item }}"
+    url: "http://{{ internal_fqdn }}:18004/v1/%(tenant_id)s"
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+   -  admin
+   -  public
+   -  internal
+  when: internal_fqdn == external_fqdn
+
+- name: Heat endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ certificates_dir }}/haproxy-internal.pem"
+    service: heat
+    endpoint_interface: "{{ item }}"
+    url: "http://{{ internal_fqdn }}:18004/v1/%(tenant_id)s"
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  admin
+  -  internal
+  when: internal_fqdn != external_fqdn
+
+- name: Heat public endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ certificates_dir }}/haproxy-internal.pem"
+    service: heat
+    endpoint_interface: "{{ item }}"
+    url: "http://{{ external_fqdn }}:18004/v1/%(tenant_id)s"
+    region: RegionOne
+    state: present
+    interface: internal 
+  with_items:
+  -  public
+  when: internal_fqdn != external_fqdn
+
+
+
+- name: Heat-cfn endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ certificates_dir }}/haproxy-internal.pem"
+    service: heat-cfn
+    endpoint_interface: "{{ item }}"
+    url: "http://{{ internal_fqdn }}:18000/v1"
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+   -  admin
+   -  public
+   -  internal
+  when: internal_fqdn == external_fqdn
+
+- name: Heat-cfn endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ certificates_dir }}/haproxy-internal.pem"
+    service: heat-cfn
+    endpoint_interface: "{{ item }}"
+    url: "http://{{ internal_fqdn }}:18000/v1"
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  admin
+  -  internal
+  when: internal_fqdn != external_fqdn
+
+- name: Heat-cfn public endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ certificates_dir }}/haproxy-internal.pem"
+    service: heat-cfn
+    endpoint_interface: "{{ item }}"
+    url: "http://{{ external_fqdn }}:18000/v1"
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  public
+  when: internal_fqdn != external_fqdn
+
+- name: Create Heat Domain
+  openstack.cloud.identity_domain:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: heat
+    description: "Stack projects and users"
+
+- name: Heat Domain User create
+  openstack.cloud.identity_user:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: heat_domain_admin
+    password: "{{ keystone_pass }}"
+    domain: heat
+    interface: internal
+
+- name: Assign admin role to Heat Domain User
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: heat_domain_admin
+    role: admin
+    domain: heat
+#    user_domain: heat
+    interface: internal
+    cacert: "{{ internal_fqdn_cert }}"
+
+#- name: Heat user role assignment
+#  openstack.cloud.role_assignment:
+#    cloud: contrabass
+#    user: heat
+#    role: admin
+#    project: service
+#    interface: internal
+#    cacert: "{{ internal_fqdn_cert }}"
+
+
+- name: Create Heat Stack Owner Role
+  openstack.cloud.identity_role:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: heat_stack_owner
+
+- name: Assign Heat Stack Owner Role to Project Admin
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: admin  # Replace with the desired user
+    role: heat_stack_owner
+    project: admin  # Replace with the desired project
+    interface: internal
+    cacert: "{{ internal_fqdn_cert }}"
+
+- name: Create Heat Stack User Role
+  openstack.cloud.identity_role:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: heat_stack_user

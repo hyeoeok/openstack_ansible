@@ -1,0 +1,57 @@
+ok: [compute05] => {
+    "hostvars": {
+        "compute05": {
+            "ansible_all_ipv4_addresses": [
+                "192.168.30.135",
+                "192.168.34.78"
+            "ansible_facts": {
+                "_facts_gathered": true,
+                "all_ipv4_addresses": [
+                    "192.168.30.135",
+                    "192.168.34.78"
+                "bond0.300": {
+                    "active": true,
+                    "device": "bond0.300",
+                    },
+                    "hw_timestamp_filters": [],
+                    "ipv4": {
+                        "address": "192.168.30.135",
+                        "broadcast": "192.168.31.255",
+                        "netmask": "255.255.254.0",
+                        "network": "192.168.30.0"
+            ],
+            "group_names": [
+                "alls",
+                "openstack"
+            ],
+            "groups": {
+                "all": [
+                    "compute05"
+                ],
+                "alls": [
+                    "compute05"
+                ],
+                "compute": [],
+                "controller": [],
+                "controller01": [],
+                "controller02": [],
+                "controller03": [],
+                "ntp_server": [],
+                "openstack": [
+                    "compute05"
+                ],
+                "ungrouped": []
+            },
+            "int_api_interface": "bond0.300",
+            "inventory_dir": "/root/sds-ansible/inventory",
+            "inventory_file": "/root/sds-ansible/inventory/inventory.ini",
+            "inventory_hostname": "compute05",
+            "inventory_hostname_short": "compute05",
+            "module_setup": true,
+            "omit": "__omit_place_holder__602b85ca12bcb1fc8eae902b43991f0614800d6d",
+            "openstack_version": "yoga",
+            "pakage_ip": "101.202.35.181:10880",
+            "playbook_dir": "/root/sds-ansible"
+        }
+    }
+}

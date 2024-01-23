@@ -1,0 +1,41 @@
+---
+- name: Bootstrap pxc primary
+  shell: /etc/init.d/mysql bootstrap-pxc
+  when: percona_version == 5.7
+
+- name: Bootstrap pxc primary
+  shell: systemctl start mysql@bootstrap.service
+  when: percona_version == 8
+
+- name: sstuser create
+  #no_log: true
+  mysql_user:
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    login_user: root
+    login_password: "{{ db_password }}"
+    name: sstuser
+    host: "{{ item }}"
+    password: s3cretPass
+    state: present
+    priv: '*.*:ALL,GRANT'
+  with_items:
+    - localhost
+    - "%"
+  when: percona_version == 5.7
+
+- name: Update mysql root password for all root accounts
+  no_log: true
+  mysql_user:
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    name: root
+    host: "{{ item }}"
+    password: "{{ db_password }}"
+    login_user: root
+    login_password: "{{ db_password }}"
+    check_implicit_admin: yes
+    priv: '*.*:ALL,GRANT'
+  with_items:
+    - 127.0.0.1
+    - ::1
+    - localhost
+    - "{{ ansible_hostname }}"

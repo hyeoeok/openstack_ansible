@@ -1,0 +1,14 @@
+---
+- name: octavia_pakage_install  
+  apt:
+    update_cache: yes
+    name: "{{ item }}" 
+    state: present
+  with_items:
+  - octavia-api 
+  - octavia-health-manager 
+  - octavia-housekeeping 
+  - octavia-worker
+  - python3-octavia
+  - python3-octaviaclient  
+  - python3-octavia-dashboard

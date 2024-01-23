@@ -1,0 +1,6 @@
+keystone_dir: /etc/keystone
+keystone_fernet_path_0: /etc/keystone/fernet-keys/0
+keystone_fernet_path_1: /etc/keystone/fernet-keys/1
+keystone_credential_path: /etc/keystone/credential-keys
+ceph_dir: /etc/ceph/
+ceph_config_file: /etc/ceph/ceph.conf

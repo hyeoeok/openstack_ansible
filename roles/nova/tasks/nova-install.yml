@@ -1,0 +1,9 @@
+    - name: nova_pakage_install
+      apt:
+        update-cache: yes
+        name:
+          - nova-api
+          - nova-conductor
+          - nova-novncproxy
+          - nova-scheduler
+        state: present

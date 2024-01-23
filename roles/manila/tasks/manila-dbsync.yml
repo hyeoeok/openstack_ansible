@@ -1,0 +1,3 @@
+---
+    - name: manila DB sync
+      command: su -s /bin/sh -c "manila-manage db sync" manila 

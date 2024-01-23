@@ -1,0 +1,41 @@
+[DEFAULT]
+
+transport_url = rabbit://{% for host in groups['controller'] %}{{ rabbitmq_name }}:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_'~int_api_interface]['ipv4']['address'] }}:5672{% if not loop.last %},{% endif %}{% endfor %}
+
+heat_metadata_server_url = http://{{ internal_vip_address }}:18000
+heat_waitcondition_server_url = http://{{ internal_vip_address }}:18000/v1/waitcondition
+stack_domain_admin = heat_domain_admin
+stack_domain_admin_password = cloud1234
+stack_user_domain_name = heat
+
+
+
+[database]
+connection = mysql+pymysql://heat:{{ db_password }}@{{ internal_vip_address }}/heat
+
+[keystone_authtoken]
+{% if enable_tls_internal  %}
+www_authenticate_uri = https://{{ internal_vip_address }}:15000
+auth_url = https://{{ internal_vip_address }}:15000
+cafile = {{ internal_fqdn_cert }}
+{% elif enable_tls_internal == false %}
+www_authenticate_uri = http://{{ internal_vip_address }}:15000
+auth_url = http://{{ internal_vip_address }}:15000
+{% endif %}
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = heat
+password = {{ keystone_pass }}
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_'~int_api_interface]['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+
+[trustee]
+auth_type = password
+auth_url = http://{{ internal_vip_address }}:15000
+username = heat
+password = cloud1234
+user_domain_name = default
+
+[clients_keystone]
+auth_uri = http://{{ internal_vip_address }}:15000

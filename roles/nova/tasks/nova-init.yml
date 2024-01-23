@@ -1,0 +1,75 @@
+---
+- name: Create Nova Service
+  openstack.cloud.catalog_service:
+    cloud: contrabass   
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: nova
+    service_type: compute
+    description: OpenStack compute Service
+    interface: internal
+
+- name: Create Nova User
+  openstack.cloud.identity_user:
+    cloud: contrabass   
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: nova
+    password: "{{ keystone_pass }}"
+    domain: default
+    default_project: service
+    interface: internal
+
+- name: Nova user role assignment
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: nova
+    role: admin
+    project: service
+    cacert: "{{ internal_fqdn_cert }}"
+    interface: internal
+
+- name: Nova endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: nova
+    endpoint_interface: "{{ item }}"
+    url: http://{{ internal_fqdn }}:18774/v2.1
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+   -  admin
+   -  public
+   -  internal
+  when: internal_fqdn == external_fqdn
+
+- name: Nova endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: nova
+    endpoint_interface: "{{ item }}"
+    url: http://{{ internal_fqdn }}:18774/v2.1
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  admin
+  -  internal
+  when: internal_fqdn != external_fqdn
+
+- name: Nova public endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: nova
+    endpoint_interface: "{{ item }}"
+    url: http://{{ external_fqdn }}:18774/v2.1
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  public
+  when: internal_fqdn != external_fqdn

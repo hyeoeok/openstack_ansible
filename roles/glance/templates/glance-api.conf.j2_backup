@@ -1,0 +1,36 @@
+[DEFAULT]
+
+cafile = {{ internal_fqdn_cert }}
+
+
+{% if enable_glance_image_cache | bool %}
+image_cache_max_size = {{ glance_cache_max_size }}
+image_cache_dir = /var/lib/glance/image-cache
+{% endif %}
+
+[database]
+connection = mysql+pymysql://glance:{{ db_password }}@{{ internal_vip_address }}/glance
+backend = sqlalchemy
+
+[glance_store]
+stores = file,http
+default_store = file
+filesystem_store_datadir = /var/lib/glance/images/
+
+[image_format]
+disk_formats = ami,ari,aki,vhd,vhdx,vmdk,raw,qcow2,vdi,iso,root-tar
+
+[keystone_authtoken]
+www_authenticate_uri = http://{{ internal_vip_address }}:15000
+auth_url = http://{{ internal_vip_address }}:15000
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = glance
+password = {{ service_pass }}
+
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_'~int_api_interface]['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+
+[paste_deploy]
+flavor = keystone

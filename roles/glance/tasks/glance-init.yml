@@ -1,0 +1,75 @@
+---
+- name: Create Glance Service 
+  openstack.cloud.catalog_service:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: glance
+    service_type: image
+    description: OpenStack Image Service
+    interface: internal
+
+- name: Create Glance User
+  openstack.cloud.identity_user:
+    cloud: contrabass   
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: glance
+    password: "{{ keystone_pass }}"
+    domain: default
+    interface: internal
+    default_project: service
+
+- name: Glance user role assignment 
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: glance
+    role: admin
+    project: service
+    interface: internal
+    cacert: "{{ internal_fqdn_cert }}"
+
+- name: Glance endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: glance
+    endpoint_interface: "{{ item }}"
+    url: http://{{ internal_fqdn }}:19292
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+   -  admin
+   -  public
+   -  internal
+  when: internal_fqdn == external_fqdn
+
+- name: Glance endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: glance
+    endpoint_interface: "{{ item }}"
+    url: http://{{ internal_fqdn }}:19292
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  admin
+  -  internal
+  when: internal_fqdn != external_fqdn
+
+- name: Glance public endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: glance
+    endpoint_interface: "{{ item }}"
+    url: http://{{ external_fqdn }}:19292
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  public
+  when: internal_fqdn != external_fqdn

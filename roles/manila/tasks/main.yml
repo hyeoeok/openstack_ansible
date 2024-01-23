@@ -1,0 +1,19 @@
+- include_tasks: manila-install.yml
+
+- include_tasks: manila-config-set.yml
+
+- include_tasks: manila-py-code-set.yml
+  when: 
+    - inventory_hostname in groups["controller"]
+    - enable_manila == true
+
+- include_tasks: manila-database-create.yml
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: manila-dbsync.yml
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: manila-init.yml
+  when: inventory_hostname in groups["controller"][0]
+
+- include_tasks: manila-restart.yml 

@@ -1,0 +1,76 @@
+---
+- name: Create Placement Service
+  openstack.cloud.catalog_service:
+    cloud: contrabass   
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: placement
+    service_type: placement
+    description: Placement API
+    interface: internal
+
+- name: Create Placement User
+  openstack.cloud.identity_user:
+    auth:
+    cloud: contrabass   
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: placement
+    password: "{{ keystone_pass }}"
+    domain: default
+    default_project: service
+    interface: internal
+
+- name: placement user role assignment 
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: placement
+    role: admin
+    project: service
+    cacert: "{{ internal_fqdn_cert }}"
+    interface: internal
+
+- name: Placement endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: placement
+    endpoint_interface: "{{ item }}"
+    url: http://{{ internal_fqdn }}:18778
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+   -  admin
+   -  public
+   -  internal
+  when: internal_fqdn == external_fqdn
+
+- name: Placement endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: placement
+    endpoint_interface: "{{ item }}"
+    url: http://{{ internal_fqdn }}:18778
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  admin
+  -  internal
+  when: internal_fqdn != external_fqdn
+
+- name: Placement public endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: placement
+    endpoint_interface: "{{ item }}"
+    url: http://{{ external_fqdn }}:18778
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  public
+  when: internal_fqdn != external_fqdn

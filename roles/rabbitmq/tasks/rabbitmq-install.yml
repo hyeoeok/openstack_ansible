@@ -1,0 +1,6 @@
+---
+- name: rabbitmq install
+  apt:
+    update_cache: yes
+    name:
+       - rabbitmq-server

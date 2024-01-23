@@ -1,0 +1,3 @@
+---
+- name: veth shell init
+  ansible.builtin.script: /root/okestro-openstack_deploy/roles/octavia-set/files/sub-create.sh

@@ -1,0 +1,5 @@
+---
+- include_tasks: memcached-install.yml
+- include_tasks: memcached-config.yml
+
+

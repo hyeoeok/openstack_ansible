@@ -1,0 +1,35 @@
+---
+- name: Compute & libvirtd service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - nova-compute
+
+      #- name: Compute & libvirtd service restart
+      #  service:
+      #    name: "{{ item }}"
+      #    state: stopped
+      #  with_items:
+      #    - libvirtd
+      #
+      #- name: Libvirtd-tcp.socket stop & start & enable
+      #  shell: systemctl stop libvirtd-tcp.socket && systemctl start libvirtd-tcp.socket 
+      #
+      #- name: Libvirtd-tcp.socket stop & start & enable
+      #  shell: systemctl enable libvirtd-tcp.socket
+      #
+      #- name: Compute & libvirtd service start
+      #  service:
+      #    name: "{{ item }}"
+      #    state: started
+      #  with_items:
+      #    - libvirtd
+ 
+
+- name: Compute Service restart
+  service: 
+    name: "{{ item }}"
+    state: restarted
+  with_items: 
+    - neutron-openvswitch-agent

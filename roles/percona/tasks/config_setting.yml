@@ -1,0 +1,11 @@
+---
+- name: Stop all instances
+  service: name=mysql state=stopped
+
+- name: Configures for my.cnf setting
+  template:
+    src: percona-xtradb-cluster.cnf.j2
+    dest: /etc/mysql/percona-xtradb-cluster.cnf
+    owner: root
+    group: root
+    mode: 0644

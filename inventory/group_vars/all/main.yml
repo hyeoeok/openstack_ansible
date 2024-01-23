@@ -1,0 +1,116 @@
+# openstack componant enables 
+# default enable is  keystone, cinder, nova, neutron, horizon
+enable_openstack_tls: false
+enable_swift: false
+enable_manila: false
+enable_octavia: true
+enable_barbican: false
+enable_masakari: true
+enable_horizon_tls: false
+enable_heat: true
+  
+##################
+# Baremetal init #
+##################
+
+####################
+# Local repository #
+####################
+
+use_local_repo: false
+
+#pakage_ip: 101.202.35.181:10880
+openstack_version: yoga
+ntp_server: 192.168.20.151
+
+int_api_interface: ens33
+external_api_interface: ens33
+
+####################
+# perocna settings #
+####################
+## Possible version are 5.7 or 8.xxx if the version is 8, write 8 ##
+percona_version: 8
+db_password: cloud1234
+
+####################
+# rabbitmq setting #
+####################
+rabbitmq_name: openstack
+rabbitmq_password: cloud1234
+rabbitmq_cluster_master: con1
+tls_only: false
+enable_tls: false
+rabbitmq_create_cluster: false
+
+############
+# bind-VIP #
+############
+haproxy_member: con1
+haproxy_pwd: cloud1234
+internal_vip_address: 192.168.20.163
+internal_vip_cidr: 24
+external_vip_address: 192.168.20.163
+external_vip_cidr: 24
+
+###############
+# certificate #
+###############
+enable_tls_external: false
+enable_tls_internal: false
+same_external_internal_vip: "{{ external_vip_address == internal_vip_address }}"
+internal_fqdn: "{{ internal_vip_address }}"
+external_fqdn: "{{ external_vip_address }}"
+certificates_dir: /opt/certificate
+internal_fqdn_cert: "{{ certificates_dir }}/haproxy-internal.pem"
+external_fqdn_cert: "{{ certificates_dir }}/haproxy-external.pem"
+
+
+##########
+# glance #
+##########
+enable_glance_image_cache: false
+
+############
+# keystone #
+############
+keystone_pass: cloud1234
+
+##########
+# cinder #
+##########
+cinder_backend_name: lvm
+enable_cinder_backend_nfs: false
+enable_cinder_backend_lvm: true
+enable_cinder_custom_backend: false
+cinder_custom_conf: |
+
+
+###########
+# neutron #
+###########
+## external br-ex port ##
+bridge_port: ens34
+## external second br-ex ##
+#second_bridge: br-backup
+## external second br-ex port ##
+#second_bridge_port: ens224
+neutron_tenant_type: vxlan
+
+
+############
+# masakari #
+############
+corosync_interface: ens33
+haproxy_com_member: com1 com2
+
+
+
+################
+# backend ceph #
+################
+images_pool: 32
+volumes_pool: 64
+backups_pool: 32
+vms_pool: 64
+

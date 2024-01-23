@@ -1,0 +1,7 @@
+---
+    - name: placement-api restart
+      service: 
+        name: "{{ item }}"
+        state: restarted
+      with_items: 
+        - apache2 

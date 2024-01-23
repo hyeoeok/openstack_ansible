@@ -1,0 +1,76 @@
+---
+- name: Neutron User Create
+  openstack.cloud.identity_user:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    state: present
+    name: neutron
+    password: "{{ keystone_pass }}"
+    domain: default
+    interface: internal
+    default_project: service
+
+- name: Neutron user role assignment 
+  openstack.cloud.role_assignment:
+    cloud: contrabass
+    user: neutron
+    role: admin
+    project: service
+    interface: internal
+    cacert: "{{ internal_fqdn_cert }}"
+
+- name: Create Service Project
+  openstack.cloud.catalog_service:
+    cacert: "{{ internal_fqdn_cert }}"
+    cloud: contrabass
+    state: present
+    name: neutron
+    description: Contrabass Networking
+    enabled: True
+    service_type: network
+    interface: internal
+
+- name: Neutron endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: neutron
+    endpoint_interface: "{{ item }}"
+    url: http://{{ internal_fqdn }}:19696
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+   -  admin
+   -  public
+   -  internal
+  when: internal_fqdn == external_fqdn 
+
+- name: Neutron endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: neutron
+    endpoint_interface: "{{ item }}"
+    url: http://{{ internal_fqdn }}:19696
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  admin
+  -  internal
+  when: internal_fqdn != external_fqdn
+
+- name: Neutron public endpoint create
+  openstack.cloud.endpoint:
+    cloud: contrabass
+    cacert: "{{ internal_fqdn_cert }}"
+    service: neutron
+    endpoint_interface: "{{ item }}"
+    url: http://{{ external_fqdn }}:19696
+    region: RegionOne
+    state: present
+    interface: internal
+  with_items:
+  -  public
+  when: internal_fqdn != external_fqdn

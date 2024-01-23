@@ -1,0 +1,1156 @@
+
+task path: /root/sds-ansible/test.yml:28
+ok: [deploy] => {
+    "msg": {
+        "deploy": {
+            "ansible_all_ipv4_addresses": [
+                "192.168.34.70",
+                "192.168.30.206"
+            ],
+            "ansible_all_ipv6_addresses": [
+                "fe80::250:56ff:fe81:c44b",
+                "fe80::250:56ff:fe81:43f7"
+            ],
+            "group_names": [
+                "alls",
+                "deploy",
+                "ntp_server"
+            ],
+            "groups": {
+                "all": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "alls": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "compute": [
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "controller": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03"
+                ],
+                "deploy": [
+                    "deploy"
+                ],
+                "ntp_server": [
+                    "deploy"
+                ],
+                "openstack": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "ungrouped": []
+            },
+            "haproxy_com_member": "pg-krw2-cos-cn-01 pg-krw2-cos-cn-02 pg-krw2-cos-cn-03 pg-krw2-cos-cn-04 pg-krw2-cos-cn-05",
+            "haproxy_member": "pg-krw2-cos-con-01 pg-krw2-cos-con-02 pg-krw2-cos-con-03",
+            "haproxy_pwd": "rhdrhdCloud12!",
+            "int_api_interface": "ens224",
+            "internal_fqdn": "192.168.10.120",
+            "internal_fqdn_cert": "/opt/certificate/haproxy-internal.pem",
+            "internal_vip_address": "192.168.10.120",
+            "internal_vip_cidr": 23,
+            "inventory_dir": "/root/sds-ansible/inventory",
+            "inventory_file": "/root/sds-ansible/inventory/inventory.ini",
+            "inventory_hostname": "deploy",
+            "inventory_hostname_short": "deploy",
+            "keystone_pass": "rhdrhdCloud12!",
+            "module_setup": true,
+            "ntp_server": "192.168.34.70",
+            "openstack_version": "yoga",
+            "pakage_ip": "101.202.35.181:10880",
+            "playbook_dir": "/root/sds-ansible",
+            "rabbitmq_cluster_master": "pg-krw2-cos-con-01",
+            "rabbitmq_create_cluster": true,
+            "rabbitmq_name": "openstack",
+            "rabbitmq_password": "rhdrhdCloud12!",
+            "same_external_internal_vip": false,
+            "tls_only": false
+        },
+        "pg-krw2-cos-cn-01": {
+            "ansible_check_mode": false,
+            "ansible_config_file": "/etc/ansible/ansible.cfg",
+            "ansible_diff_mode": false,
+            "ansible_facts": {},
+            "ansible_forks": 5,
+            "ansible_host": "192.168.30.131",
+            "ansible_inventory_sources": [
+                "/root/sds-ansible/inventory/inventory.ini"
+            ],
+            "ansible_playbook_python": "/usr/bin/python3",
+            "ansible_run_tags": [
+                "all"
+            ],
+            "ansible_skip_tags": [],
+            "ansible_user": "root",
+            "ansible_verbosity": 2,
+            "ansible_version": {
+                "full": "2.12.10",
+                "major": 2,
+                "minor": 12,
+                "revision": 10,
+                "string": "2.12.10"
+            },
+            "bridge_port": "ens161",
+            "certificates_dir": "/opt/certificate",
+            "cinder_backend_name": "netapp",
+            "cinder_custom_conf": "[netapp_nfs]\nvolume_backend_name=netapp_nfs\nvolume_driver=cinder.volume.drivers.netapp.common.NetAppDriver\nnetapp_login=admin\nnetapp_password=tkddkaG1!\nnetapp_server_hostname=192.168.30.250\nnetapp_server_port=80\nnetapp_size_multiplier=\nnetapp_storage_family=ontap_cluster\nnetapp_storage_protocol=nfs\nnetapp_transport_type=http\nnetapp_vfiler=\nnetapp_vserver=Cinder-SVM\nnetapp_partner_backend_name=\nnetapp_copyoffload_tool_path=\nnetapp_controller_ips=\nnetapp_sa_password=\nnetapp_pool_name_search_pattern=(.+)\nnetapp_host_type=\nnetapp_webservice_path=\n",
+            "corosync_interface": "ens224",
+            "db_password": "rhdrhdCloud12!",
+            "enable_barbican": true,
+            "enable_cinder_backend_nfs": true,
+            "enable_cinder_custom_backend": true,
+            "enable_glance_image_cache": false,
+            "enable_horizon_tls": true,
+            "enable_manila": true,
+            "enable_masakari": true,
+            "enable_octavia": true,
+            "enable_openstack_tls": true,
+            "enable_swift": false,
+            "enable_tls": false,
+            "enable_tls_external": true,
+            "enable_tls_internal": true,
+            "external_api_interface": "ens256",
+            "external_fqdn": "112.107.91.250",
+            "external_fqdn_cert": "/opt/certificate/haproxy-external.pem",
+            "external_vip_address": "112.107.91.250",
+            "external_vip_cidr": 25,
+            "group_names": [
+                "alls",
+                "compute",
+                "openstack"
+            ],
+            "groups": {
+                "all": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "alls": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "compute": [
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "controller": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03"
+                ],
+                "deploy": [
+                    "deploy"
+                ],
+                "ntp_server": [
+                    "deploy"
+                ],
+                "openstack": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "ungrouped": []
+            },
+            "haproxy_com_member": "pg-krw2-cos-cn-01 pg-krw2-cos-cn-02 pg-krw2-cos-cn-03 pg-krw2-cos-cn-04 pg-krw2-cos-cn-05",
+            "haproxy_member": "pg-krw2-cos-con-01 pg-krw2-cos-con-02 pg-krw2-cos-con-03",
+            "haproxy_pwd": "rhdrhdCloud12!",
+            "int_api_interface": "ens224",
+            "internal_fqdn": "192.168.10.120",
+            "internal_fqdn_cert": "/opt/certificate/haproxy-internal.pem",
+            "internal_vip_address": "192.168.10.120",
+            "internal_vip_cidr": 23,
+            "inventory_dir": "/root/sds-ansible/inventory",
+            "inventory_file": "/root/sds-ansible/inventory/inventory.ini",
+            "inventory_hostname": "pg-krw2-cos-cn-01",
+            "inventory_hostname_short": "pg-krw2-cos-cn-01",
+            "keystone_pass": "rhdrhdCloud12!",
+            "ntp_server": "192.168.34.70",
+            "openstack_version": "yoga",
+            "pakage_ip": "101.202.35.181:10880",
+            "playbook_dir": "/root/sds-ansible",
+            "rabbitmq_cluster_master": "pg-krw2-cos-con-01",
+            "rabbitmq_create_cluster": true,
+            "rabbitmq_name": "openstack",
+            "rabbitmq_password": "rhdrhdCloud12!",
+            "same_external_internal_vip": false,
+            "tls_only": false
+        },
+        "pg-krw2-cos-cn-02": {
+            "ansible_check_mode": false,
+            "ansible_config_file": "/etc/ansible/ansible.cfg",
+            "ansible_diff_mode": false,
+            "ansible_facts": {},
+            "ansible_forks": 5,
+            "ansible_host": "192.168.30.132",
+            "ansible_inventory_sources": [
+                "/root/sds-ansible/inventory/inventory.ini"
+            ],
+            "ansible_playbook_python": "/usr/bin/python3",
+            "ansible_run_tags": [
+                "all"
+            ],
+            "ansible_skip_tags": [],
+            "ansible_user": "root",
+            "ansible_verbosity": 2,
+            "ansible_version": {
+                "full": "2.12.10",
+                "major": 2,
+                "minor": 12,
+                "revision": 10,
+                "string": "2.12.10"
+            },
+            "bridge_port": "ens161",
+            "certificates_dir": "/opt/certificate",
+            "cinder_backend_name": "netapp",
+            "cinder_custom_conf": "[netapp_nfs]\nvolume_backend_name=netapp_nfs\nvolume_driver=cinder.volume.drivers.netapp.common.NetAppDriver\nnetapp_login=admin\nnetapp_password=tkddkaG1!\nnetapp_server_hostname=192.168.30.250\nnetapp_server_port=80\nnetapp_size_multiplier=\nnetapp_storage_family=ontap_cluster\nnetapp_storage_protocol=nfs\nnetapp_transport_type=http\nnetapp_vfiler=\nnetapp_vserver=Cinder-SVM\nnetapp_partner_backend_name=\nnetapp_copyoffload_tool_path=\nnetapp_controller_ips=\nnetapp_sa_password=\nnetapp_pool_name_search_pattern=(.+)\nnetapp_host_type=\nnetapp_webservice_path=\n",
+            "corosync_interface": "ens224",
+            "db_password": "rhdrhdCloud12!",
+            "enable_barbican": true,
+            "enable_cinder_backend_nfs": true,
+            "enable_cinder_custom_backend": true,
+            "enable_glance_image_cache": false,
+            "enable_horizon_tls": true,
+            "enable_manila": true,
+            "enable_masakari": true,
+            "enable_octavia": true,
+            "enable_openstack_tls": true,
+            "enable_swift": false,
+            "enable_tls": false,
+            "enable_tls_external": true,
+            "enable_tls_internal": true,
+            "external_api_interface": "ens256",
+            "external_fqdn": "112.107.91.250",
+            "external_fqdn_cert": "/opt/certificate/haproxy-external.pem",
+            "external_vip_address": "112.107.91.250",
+            "external_vip_cidr": 25,
+            "group_names": [
+                "alls",
+                "compute",
+                "openstack"
+            ],
+            "groups": {
+                "all": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "alls": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "compute": [
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "controller": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03"
+                ],
+                "deploy": [
+                    "deploy"
+                ],
+                "ntp_server": [
+                    "deploy"
+                ],
+                "openstack": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "ungrouped": []
+            },
+            "haproxy_com_member": "pg-krw2-cos-cn-01 pg-krw2-cos-cn-02 pg-krw2-cos-cn-03 pg-krw2-cos-cn-04 pg-krw2-cos-cn-05",
+            "haproxy_member": "pg-krw2-cos-con-01 pg-krw2-cos-con-02 pg-krw2-cos-con-03",
+            "haproxy_pwd": "rhdrhdCloud12!",
+            "int_api_interface": "ens224",
+            "internal_fqdn": "192.168.10.120",
+            "internal_fqdn_cert": "/opt/certificate/haproxy-internal.pem",
+            "internal_vip_address": "192.168.10.120",
+            "internal_vip_cidr": 23,
+            "inventory_dir": "/root/sds-ansible/inventory",
+            "inventory_file": "/root/sds-ansible/inventory/inventory.ini",
+            "inventory_hostname": "pg-krw2-cos-cn-02",
+            "inventory_hostname_short": "pg-krw2-cos-cn-02",
+            "keystone_pass": "rhdrhdCloud12!",
+            "ntp_server": "192.168.34.70",
+            "openstack_version": "yoga",
+            "pakage_ip": "101.202.35.181:10880",
+            "playbook_dir": "/root/sds-ansible",
+            "rabbitmq_cluster_master": "pg-krw2-cos-con-01",
+            "rabbitmq_create_cluster": true,
+            "rabbitmq_name": "openstack",
+            "rabbitmq_password": "rhdrhdCloud12!",
+            "same_external_internal_vip": false,
+            "tls_only": false
+        },
+        "pg-krw2-cos-cn-03": {
+            "ansible_check_mode": false,
+            "ansible_config_file": "/etc/ansible/ansible.cfg",
+            "ansible_diff_mode": false,
+            "ansible_facts": {},
+            "ansible_forks": 5,
+            "ansible_host": "192.168.30.133",
+            "ansible_inventory_sources": [
+                "/root/sds-ansible/inventory/inventory.ini"
+            ],
+            "ansible_playbook_python": "/usr/bin/python3",
+            "ansible_run_tags": [
+                "all"
+            ],
+            "ansible_skip_tags": [],
+            "ansible_user": "root",
+            "ansible_verbosity": 2,
+            "ansible_version": {
+                "full": "2.12.10",
+                "major": 2,
+                "minor": 12,
+                "revision": 10,
+                "string": "2.12.10"
+            },
+            "bridge_port": "ens161",
+            "certificates_dir": "/opt/certificate",
+            "cinder_backend_name": "netapp",
+            "cinder_custom_conf": "[netapp_nfs]\nvolume_backend_name=netapp_nfs\nvolume_driver=cinder.volume.drivers.netapp.common.NetAppDriver\nnetapp_login=admin\nnetapp_password=tkddkaG1!\nnetapp_server_hostname=192.168.30.250\nnetapp_server_port=80\nnetapp_size_multiplier=\nnetapp_storage_family=ontap_cluster\nnetapp_storage_protocol=nfs\nnetapp_transport_type=http\nnetapp_vfiler=\nnetapp_vserver=Cinder-SVM\nnetapp_partner_backend_name=\nnetapp_copyoffload_tool_path=\nnetapp_controller_ips=\nnetapp_sa_password=\nnetapp_pool_name_search_pattern=(.+)\nnetapp_host_type=\nnetapp_webservice_path=\n",
+            "corosync_interface": "ens224",
+            "db_password": "rhdrhdCloud12!",
+            "enable_barbican": true,
+            "enable_cinder_backend_nfs": true,
+            "enable_cinder_custom_backend": true,
+            "enable_glance_image_cache": false,
+            "enable_horizon_tls": true,
+            "enable_manila": true,
+            "enable_masakari": true,
+            "enable_octavia": true,
+            "enable_openstack_tls": true,
+            "enable_swift": false,
+            "enable_tls": false,
+            "enable_tls_external": true,
+            "enable_tls_internal": true,
+            "external_api_interface": "ens256",
+            "external_fqdn": "112.107.91.250",
+            "external_fqdn_cert": "/opt/certificate/haproxy-external.pem",
+            "external_vip_address": "112.107.91.250",
+            "external_vip_cidr": 25,
+            "group_names": [
+                "alls",
+                "compute",
+                "openstack"
+            ],
+            "groups": {
+                "all": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "alls": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "compute": [
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "controller": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03"
+                ],
+                "deploy": [
+                    "deploy"
+                ],
+                "ntp_server": [
+                    "deploy"
+                ],
+                "openstack": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "ungrouped": []
+            },
+            "haproxy_com_member": "pg-krw2-cos-cn-01 pg-krw2-cos-cn-02 pg-krw2-cos-cn-03 pg-krw2-cos-cn-04 pg-krw2-cos-cn-05",
+            "haproxy_member": "pg-krw2-cos-con-01 pg-krw2-cos-con-02 pg-krw2-cos-con-03",
+            "haproxy_pwd": "rhdrhdCloud12!",
+            "int_api_interface": "ens224",
+            "internal_fqdn": "192.168.10.120",
+            "internal_fqdn_cert": "/opt/certificate/haproxy-internal.pem",
+            "internal_vip_address": "192.168.10.120",
+            "internal_vip_cidr": 23,
+            "inventory_dir": "/root/sds-ansible/inventory",
+            "inventory_file": "/root/sds-ansible/inventory/inventory.ini",
+            "inventory_hostname": "pg-krw2-cos-cn-03",
+            "inventory_hostname_short": "pg-krw2-cos-cn-03",
+            "keystone_pass": "rhdrhdCloud12!",
+            "ntp_server": "192.168.34.70",
+            "openstack_version": "yoga",
+            "pakage_ip": "101.202.35.181:10880",
+            "playbook_dir": "/root/sds-ansible",
+            "rabbitmq_cluster_master": "pg-krw2-cos-con-01",
+            "rabbitmq_create_cluster": true,
+            "rabbitmq_name": "openstack",
+            "rabbitmq_password": "rhdrhdCloud12!",
+            "same_external_internal_vip": false,
+            "tls_only": false
+        },
+        "pg-krw2-cos-cn-04": {
+            "ansible_check_mode": false,
+            "ansible_config_file": "/etc/ansible/ansible.cfg",
+            "ansible_diff_mode": false,
+            "ansible_facts": {},
+            "ansible_forks": 5,
+            "ansible_host": "192.168.30.134",
+            "ansible_inventory_sources": [
+                "/root/sds-ansible/inventory/inventory.ini"
+            ],
+            "ansible_playbook_python": "/usr/bin/python3",
+            "ansible_run_tags": [
+                "all"
+            ],
+            "ansible_skip_tags": [],
+            "ansible_user": "root",
+            "ansible_verbosity": 2,
+            "ansible_version": {
+                "full": "2.12.10",
+                "major": 2,
+                "minor": 12,
+                "revision": 10,
+                "string": "2.12.10"
+            },
+            "bridge_port": "ens161",
+            "certificates_dir": "/opt/certificate",
+            "cinder_backend_name": "netapp",
+            "cinder_custom_conf": "[netapp_nfs]\nvolume_backend_name=netapp_nfs\nvolume_driver=cinder.volume.drivers.netapp.common.NetAppDriver\nnetapp_login=admin\nnetapp_password=tkddkaG1!\nnetapp_server_hostname=192.168.30.250\nnetapp_server_port=80\nnetapp_size_multiplier=\nnetapp_storage_family=ontap_cluster\nnetapp_storage_protocol=nfs\nnetapp_transport_type=http\nnetapp_vfiler=\nnetapp_vserver=Cinder-SVM\nnetapp_partner_backend_name=\nnetapp_copyoffload_tool_path=\nnetapp_controller_ips=\nnetapp_sa_password=\nnetapp_pool_name_search_pattern=(.+)\nnetapp_host_type=\nnetapp_webservice_path=\n",
+            "corosync_interface": "ens224",
+            "db_password": "rhdrhdCloud12!",
+            "enable_barbican": true,
+            "enable_cinder_backend_nfs": true,
+            "enable_cinder_custom_backend": true,
+            "enable_glance_image_cache": false,
+            "enable_horizon_tls": true,
+            "enable_manila": true,
+            "enable_masakari": true,
+            "enable_octavia": true,
+            "enable_openstack_tls": true,
+            "enable_swift": false,
+            "enable_tls": false,
+            "enable_tls_external": true,
+            "enable_tls_internal": true,
+            "external_api_interface": "ens256",
+            "external_fqdn": "112.107.91.250",
+            "external_fqdn_cert": "/opt/certificate/haproxy-external.pem",
+            "external_vip_address": "112.107.91.250",
+            "external_vip_cidr": 25,
+            "group_names": [
+                "alls",
+                "compute",
+                "openstack"
+            ],
+            "groups": {
+                "all": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "alls": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "compute": [
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "controller": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03"
+                ],
+                "deploy": [
+                    "deploy"
+                ],
+                "ntp_server": [
+                    "deploy"
+                ],
+                "openstack": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "ungrouped": []
+            },
+            "haproxy_com_member": "pg-krw2-cos-cn-01 pg-krw2-cos-cn-02 pg-krw2-cos-cn-03 pg-krw2-cos-cn-04 pg-krw2-cos-cn-05",
+            "haproxy_member": "pg-krw2-cos-con-01 pg-krw2-cos-con-02 pg-krw2-cos-con-03",
+            "haproxy_pwd": "rhdrhdCloud12!",
+            "int_api_interface": "ens224",
+            "internal_fqdn": "192.168.10.120",
+            "internal_fqdn_cert": "/opt/certificate/haproxy-internal.pem",
+            "internal_vip_address": "192.168.10.120",
+            "internal_vip_cidr": 23,
+            "inventory_dir": "/root/sds-ansible/inventory",
+            "inventory_file": "/root/sds-ansible/inventory/inventory.ini",
+            "inventory_hostname": "pg-krw2-cos-cn-04",
+            "inventory_hostname_short": "pg-krw2-cos-cn-04",
+            "keystone_pass": "rhdrhdCloud12!",
+            "ntp_server": "192.168.34.70",
+            "openstack_version": "yoga",
+            "pakage_ip": "101.202.35.181:10880",
+            "playbook_dir": "/root/sds-ansible",
+            "rabbitmq_cluster_master": "pg-krw2-cos-con-01",
+            "rabbitmq_create_cluster": true,
+            "rabbitmq_name": "openstack",
+            "rabbitmq_password": "rhdrhdCloud12!",
+            "same_external_internal_vip": false,
+            "tls_only": false
+        },
+        "pg-krw2-cos-cn-05": {
+            "ansible_check_mode": false,
+            "ansible_config_file": "/etc/ansible/ansible.cfg",
+            "ansible_diff_mode": false,
+            "ansible_facts": {},
+            "ansible_forks": 5,
+            "ansible_host": "192.168.30.135",
+            "ansible_inventory_sources": [
+                "/root/sds-ansible/inventory/inventory.ini"
+            ],
+            "ansible_playbook_python": "/usr/bin/python3",
+            "ansible_run_tags": [
+                "all"
+            ],
+            "ansible_skip_tags": [],
+            "ansible_user": "root",
+            "ansible_verbosity": 2,
+            "ansible_version": {
+                "full": "2.12.10",
+                "major": 2,
+                "minor": 12,
+                "revision": 10,
+                "string": "2.12.10"
+            },
+            "bridge_port": "ens161",
+            "certificates_dir": "/opt/certificate",
+            "cinder_backend_name": "netapp",
+            "cinder_custom_conf": "[netapp_nfs]\nvolume_backend_name=netapp_nfs\nvolume_driver=cinder.volume.drivers.netapp.common.NetAppDriver\nnetapp_login=admin\nnetapp_password=tkddkaG1!\nnetapp_server_hostname=192.168.30.250\nnetapp_server_port=80\nnetapp_size_multiplier=\nnetapp_storage_family=ontap_cluster\nnetapp_storage_protocol=nfs\nnetapp_transport_type=http\nnetapp_vfiler=\nnetapp_vserver=Cinder-SVM\nnetapp_partner_backend_name=\nnetapp_copyoffload_tool_path=\nnetapp_controller_ips=\nnetapp_sa_password=\nnetapp_pool_name_search_pattern=(.+)\nnetapp_host_type=\nnetapp_webservice_path=\n",
+            "corosync_interface": "ens224",
+            "db_password": "rhdrhdCloud12!",
+            "enable_barbican": true,
+            "enable_cinder_backend_nfs": true,
+            "enable_cinder_custom_backend": true,
+            "enable_glance_image_cache": false,
+            "enable_horizon_tls": true,
+            "enable_manila": true,
+            "enable_masakari": true,
+            "enable_octavia": true,
+            "enable_openstack_tls": true,
+            "enable_swift": false,
+            "enable_tls": false,
+            "enable_tls_external": true,
+            "enable_tls_internal": true,
+            "external_api_interface": "ens256",
+            "external_fqdn": "112.107.91.250",
+            "external_fqdn_cert": "/opt/certificate/haproxy-external.pem",
+            "external_vip_address": "112.107.91.250",
+            "external_vip_cidr": 25,
+            "group_names": [
+                "alls",
+                "compute",
+                "openstack"
+            ],
+            "groups": {
+                "all": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "alls": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "compute": [
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "controller": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03"
+                ],
+                "deploy": [
+                    "deploy"
+                ],
+                "ntp_server": [
+                    "deploy"
+                ],
+                "openstack": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "ungrouped": []
+            },
+            "haproxy_com_member": "pg-krw2-cos-cn-01 pg-krw2-cos-cn-02 pg-krw2-cos-cn-03 pg-krw2-cos-cn-04 pg-krw2-cos-cn-05",
+            "haproxy_member": "pg-krw2-cos-con-01 pg-krw2-cos-con-02 pg-krw2-cos-con-03",
+            "haproxy_pwd": "rhdrhdCloud12!",
+            "int_api_interface": "ens224",
+            "internal_fqdn": "192.168.10.120",
+            "internal_fqdn_cert": "/opt/certificate/haproxy-internal.pem",
+            "internal_vip_address": "192.168.10.120",
+            "internal_vip_cidr": 23,
+            "inventory_dir": "/root/sds-ansible/inventory",
+            "inventory_file": "/root/sds-ansible/inventory/inventory.ini",
+            "inventory_hostname": "pg-krw2-cos-cn-05",
+            "inventory_hostname_short": "pg-krw2-cos-cn-05",
+            "keystone_pass": "rhdrhdCloud12!",
+            "ntp_server": "192.168.34.70",
+            "openstack_version": "yoga",
+            "pakage_ip": "101.202.35.181:10880",
+            "playbook_dir": "/root/sds-ansible",
+            "rabbitmq_cluster_master": "pg-krw2-cos-con-01",
+            "rabbitmq_create_cluster": true,
+            "rabbitmq_name": "openstack",
+            "rabbitmq_password": "rhdrhdCloud12!",
+            "same_external_internal_vip": false,
+            "tls_only": false
+        },
+        "pg-krw2-cos-con-01": {
+            "ansible_check_mode": false,
+            "ansible_config_file": "/etc/ansible/ansible.cfg",
+            "ansible_diff_mode": false,
+            "ansible_facts": {},
+            "ansible_forks": 5,
+            "ansible_host": "192.168.30.121",
+            "ansible_inventory_sources": [
+                "/root/sds-ansible/inventory/inventory.ini"
+            ],
+            "ansible_playbook_python": "/usr/bin/python3",
+            "ansible_run_tags": [
+                "all"
+            ],
+            "ansible_skip_tags": [],
+            "ansible_user": "root",
+            "ansible_verbosity": 2,
+            "ansible_version": {
+                "full": "2.12.10",
+                "major": 2,
+                "minor": 12,
+                "revision": 10,
+                "string": "2.12.10"
+            },
+            "bridge_port": "ens161",
+            "certificates_dir": "/opt/certificate",
+            "cinder_backend_name": "netapp",
+            "cinder_custom_conf": "[netapp_nfs]\nvolume_backend_name=netapp_nfs\nvolume_driver=cinder.volume.drivers.netapp.common.NetAppDriver\nnetapp_login=admin\nnetapp_password=tkddkaG1!\nnetapp_server_hostname=192.168.30.250\nnetapp_server_port=80\nnetapp_size_multiplier=\nnetapp_storage_family=ontap_cluster\nnetapp_storage_protocol=nfs\nnetapp_transport_type=http\nnetapp_vfiler=\nnetapp_vserver=Cinder-SVM\nnetapp_partner_backend_name=\nnetapp_copyoffload_tool_path=\nnetapp_controller_ips=\nnetapp_sa_password=\nnetapp_pool_name_search_pattern=(.+)\nnetapp_host_type=\nnetapp_webservice_path=\n",
+            "corosync_interface": "ens224",
+            "db_password": "rhdrhdCloud12!",
+            "enable_barbican": true,
+            "enable_cinder_backend_nfs": true,
+            "enable_cinder_custom_backend": true,
+            "enable_glance_image_cache": false,
+            "enable_horizon_tls": true,
+            "enable_manila": true,
+            "enable_masakari": true,
+            "enable_octavia": true,
+            "enable_openstack_tls": true,
+            "enable_swift": false,
+            "enable_tls": false,
+            "enable_tls_external": true,
+            "enable_tls_internal": true,
+            "external_api_interface": "ens256",
+            "external_fqdn": "112.107.91.250",
+            "external_fqdn_cert": "/opt/certificate/haproxy-external.pem",
+            "external_vip_address": "112.107.91.250",
+            "external_vip_cidr": 25,
+            "group_names": [
+                "alls",
+                "controller",
+                "openstack"
+            ],
+            "groups": {
+                "all": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "alls": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "compute": [
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "controller": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03"
+                ],
+                "deploy": [
+                    "deploy"
+                ],
+                "ntp_server": [
+                    "deploy"
+                ],
+                "openstack": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "ungrouped": []
+            },
+            "haproxy_com_member": "pg-krw2-cos-cn-01 pg-krw2-cos-cn-02 pg-krw2-cos-cn-03 pg-krw2-cos-cn-04 pg-krw2-cos-cn-05",
+            "haproxy_member": "pg-krw2-cos-con-01 pg-krw2-cos-con-02 pg-krw2-cos-con-03",
+            "haproxy_pwd": "rhdrhdCloud12!",
+            "int_api_interface": "ens224",
+            "internal_fqdn": "192.168.10.120",
+            "internal_fqdn_cert": "/opt/certificate/haproxy-internal.pem",
+            "internal_vip_address": "192.168.10.120",
+            "internal_vip_cidr": 23,
+            "inventory_dir": "/root/sds-ansible/inventory",
+            "inventory_file": "/root/sds-ansible/inventory/inventory.ini",
+            "inventory_hostname": "pg-krw2-cos-con-01",
+            "inventory_hostname_short": "pg-krw2-cos-con-01",
+            "keystone_pass": "rhdrhdCloud12!",
+            "ntp_server": "192.168.34.70",
+            "openstack_version": "yoga",
+            "pakage_ip": "101.202.35.181:10880",
+            "playbook_dir": "/root/sds-ansible",
+            "rabbitmq_cluster_master": "pg-krw2-cos-con-01",
+            "rabbitmq_create_cluster": true,
+            "rabbitmq_name": "openstack",
+            "rabbitmq_password": "rhdrhdCloud12!",
+            "same_external_internal_vip": false,
+            "tls_only": false
+        },
+        "pg-krw2-cos-con-02": {
+            "ansible_check_mode": false,
+            "ansible_config_file": "/etc/ansible/ansible.cfg",
+            "ansible_diff_mode": false,
+            "ansible_facts": {},
+            "ansible_forks": 5,
+            "ansible_host": "192.168.30.122",
+            "ansible_inventory_sources": [
+                "/root/sds-ansible/inventory/inventory.ini"
+            ],
+            "ansible_playbook_python": "/usr/bin/python3",
+            "ansible_run_tags": [
+                "all"
+            ],
+            "ansible_skip_tags": [],
+            "ansible_user": "root",
+            "ansible_verbosity": 2,
+            "ansible_version": {
+                "full": "2.12.10",
+                "major": 2,
+                "minor": 12,
+                "revision": 10,
+                "string": "2.12.10"
+            },
+            "bridge_port": "ens161",
+            "certificates_dir": "/opt/certificate",
+            "cinder_backend_name": "netapp",
+            "cinder_custom_conf": "[netapp_nfs]\nvolume_backend_name=netapp_nfs\nvolume_driver=cinder.volume.drivers.netapp.common.NetAppDriver\nnetapp_login=admin\nnetapp_password=tkddkaG1!\nnetapp_server_hostname=192.168.30.250\nnetapp_server_port=80\nnetapp_size_multiplier=\nnetapp_storage_family=ontap_cluster\nnetapp_storage_protocol=nfs\nnetapp_transport_type=http\nnetapp_vfiler=\nnetapp_vserver=Cinder-SVM\nnetapp_partner_backend_name=\nnetapp_copyoffload_tool_path=\nnetapp_controller_ips=\nnetapp_sa_password=\nnetapp_pool_name_search_pattern=(.+)\nnetapp_host_type=\nnetapp_webservice_path=\n",
+            "corosync_interface": "ens224",
+            "db_password": "rhdrhdCloud12!",
+            "enable_barbican": true,
+            "enable_cinder_backend_nfs": true,
+            "enable_cinder_custom_backend": true,
+            "enable_glance_image_cache": false,
+            "enable_horizon_tls": true,
+            "enable_manila": true,
+            "enable_masakari": true,
+            "enable_octavia": true,
+            "enable_openstack_tls": true,
+            "enable_swift": false,
+            "enable_tls": false,
+            "enable_tls_external": true,
+            "enable_tls_internal": true,
+            "external_api_interface": "ens256",
+            "external_fqdn": "112.107.91.250",
+            "external_fqdn_cert": "/opt/certificate/haproxy-external.pem",
+            "external_vip_address": "112.107.91.250",
+            "external_vip_cidr": 25,
+            "group_names": [
+                "alls",
+                "controller",
+                "openstack"
+            ],
+            "groups": {
+                "all": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "alls": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "compute": [
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "controller": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03"
+                ],
+                "deploy": [
+                    "deploy"
+                ],
+                "ntp_server": [
+                    "deploy"
+                ],
+                "openstack": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "ungrouped": []
+            },
+            "haproxy_com_member": "pg-krw2-cos-cn-01 pg-krw2-cos-cn-02 pg-krw2-cos-cn-03 pg-krw2-cos-cn-04 pg-krw2-cos-cn-05",
+            "haproxy_member": "pg-krw2-cos-con-01 pg-krw2-cos-con-02 pg-krw2-cos-con-03",
+            "haproxy_pwd": "rhdrhdCloud12!",
+            "int_api_interface": "ens224",
+            "internal_fqdn": "192.168.10.120",
+            "internal_fqdn_cert": "/opt/certificate/haproxy-internal.pem",
+            "internal_vip_address": "192.168.10.120",
+            "internal_vip_cidr": 23,
+            "inventory_dir": "/root/sds-ansible/inventory",
+            "inventory_file": "/root/sds-ansible/inventory/inventory.ini",
+            "inventory_hostname": "pg-krw2-cos-con-02",
+            "inventory_hostname_short": "pg-krw2-cos-con-02",
+            "keystone_pass": "rhdrhdCloud12!",
+            "ntp_server": "192.168.34.70",
+            "openstack_version": "yoga",
+            "pakage_ip": "101.202.35.181:10880",
+            "playbook_dir": "/root/sds-ansible",
+            "rabbitmq_cluster_master": "pg-krw2-cos-con-01",
+            "rabbitmq_create_cluster": true,
+            "rabbitmq_name": "openstack",
+            "rabbitmq_password": "rhdrhdCloud12!",
+            "same_external_internal_vip": false,
+            "tls_only": false
+        },
+        "pg-krw2-cos-con-03": {
+            "ansible_check_mode": false,
+            "ansible_config_file": "/etc/ansible/ansible.cfg",
+            "ansible_diff_mode": false,
+            "ansible_facts": {},
+            "ansible_forks": 5,
+            "ansible_host": "192.168.30.123",
+            "ansible_inventory_sources": [
+                "/root/sds-ansible/inventory/inventory.ini"
+            ],
+            "ansible_playbook_python": "/usr/bin/python3",
+            "ansible_run_tags": [
+                "all"
+            ],
+            "ansible_skip_tags": [],
+            "ansible_user": "root",
+            "ansible_verbosity": 2,
+            "ansible_version": {
+                "full": "2.12.10",
+                "major": 2,
+                "minor": 12,
+                "revision": 10,
+                "string": "2.12.10"
+            },
+            "bridge_port": "ens161",
+            "certificates_dir": "/opt/certificate",
+            "cinder_backend_name": "netapp",
+            "cinder_custom_conf": "[netapp_nfs]\nvolume_backend_name=netapp_nfs\nvolume_driver=cinder.volume.drivers.netapp.common.NetAppDriver\nnetapp_login=admin\nnetapp_password=tkddkaG1!\nnetapp_server_hostname=192.168.30.250\nnetapp_server_port=80\nnetapp_size_multiplier=\nnetapp_storage_family=ontap_cluster\nnetapp_storage_protocol=nfs\nnetapp_transport_type=http\nnetapp_vfiler=\nnetapp_vserver=Cinder-SVM\nnetapp_partner_backend_name=\nnetapp_copyoffload_tool_path=\nnetapp_controller_ips=\nnetapp_sa_password=\nnetapp_pool_name_search_pattern=(.+)\nnetapp_host_type=\nnetapp_webservice_path=\n",
+            "corosync_interface": "ens224",
+            "db_password": "rhdrhdCloud12!",
+            "enable_barbican": true,
+            "enable_cinder_backend_nfs": true,
+            "enable_cinder_custom_backend": true,
+            "enable_glance_image_cache": false,
+            "enable_horizon_tls": true,
+            "enable_manila": true,
+            "enable_masakari": true,
+            "enable_octavia": true,
+            "enable_openstack_tls": true,
+            "enable_swift": false,
+            "enable_tls": false,
+            "enable_tls_external": true,
+            "enable_tls_internal": true,
+            "external_api_interface": "ens256",
+            "external_fqdn": "112.107.91.250",
+            "external_fqdn_cert": "/opt/certificate/haproxy-external.pem",
+            "external_vip_address": "112.107.91.250",
+            "external_vip_cidr": 25,
+            "group_names": [
+                "alls",
+                "controller",
+                "openstack"
+            ],
+            "groups": {
+                "all": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "alls": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05",
+                    "deploy"
+                ],
+                "compute": [
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "controller": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03"
+                ],
+                "deploy": [
+                    "deploy"
+                ],
+                "ntp_server": [
+                    "deploy"
+                ],
+                "openstack": [
+                    "pg-krw2-cos-con-01",
+                    "pg-krw2-cos-con-02",
+                    "pg-krw2-cos-con-03",
+                    "pg-krw2-cos-cn-01",
+                    "pg-krw2-cos-cn-02",
+                    "pg-krw2-cos-cn-03",
+                    "pg-krw2-cos-cn-04",
+                    "pg-krw2-cos-cn-05"
+                ],
+                "ungrouped": []
+            },
+            "haproxy_com_member": "pg-krw2-cos-cn-01 pg-krw2-cos-cn-02 pg-krw2-cos-cn-03 pg-krw2-cos-cn-04 pg-krw2-cos-cn-05",
+            "haproxy_member": "pg-krw2-cos-con-01 pg-krw2-cos-con-02 pg-krw2-cos-con-03",
+            "haproxy_pwd": "rhdrhdCloud12!",
+            "int_api_interface": "ens224",
+            "internal_fqdn": "192.168.10.120",
+            "internal_fqdn_cert": "/opt/certificate/haproxy-internal.pem",
+            "internal_vip_address": "192.168.10.120",
+            "internal_vip_cidr": 23,
+            "inventory_dir": "/root/sds-ansible/inventory",
+            "inventory_file": "/root/sds-ansible/inventory/inventory.ini",
+            "inventory_hostname": "pg-krw2-cos-con-03",
+            "inventory_hostname_short": "pg-krw2-cos-con-03",
+            "keystone_pass": "rhdrhdCloud12!",
+            "ntp_server": "192.168.34.70",
+            "openstack_version": "yoga",
+            "pakage_ip": "101.202.35.181:10880",
+            "playbook_dir": "/root/sds-ansible",
+            "rabbitmq_cluster_master": "pg-krw2-cos-con-01",
+            "rabbitmq_create_cluster": true,
+            "rabbitmq_name": "openstack",
+            "rabbitmq_password": "rhdrhdCloud12!",
+            "same_external_internal_vip": false,
+            "tls_only": false
+        }
+    }
+}
+
+TASK [debug] *******************************************************************
+task path: /root/sds-ansible/test.yml:30
+fatal: [deploy]: FAILED! => {"msg": "The task includes an option with an undefined variable. The error was: [\"{{ hostvars['groups']['compute'] }}\"]: \"hostvars['groups']\" is undefined\n\nThe error appears to be in '/root/sds-ansible/test.yml': line 30, column 7, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n        msg: \"{{ hostvars }}\"\n    - debug:\n      ^ here\n"}
+
+PLAY RECAP *********************************************************************
+deploy                     : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+ansible-playbook [core 2.12.10]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  ansible collection location = /root/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible-playbook
+  python version = 3.8.10 (default, Jun 22 2022, 20:18:18) [GCC 9.4.0]
+  jinja version = 2.10.1
+  libyaml = True
+Using /etc/ansible/ansible.cfg as config file

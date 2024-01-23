@@ -1,0 +1,99 @@
+[DEFAULT]
+rootwrap_config = /etc/cinder/rootwrap.conf
+api_paste_confg = /etc/cinder/api-paste.ini
+iscsi_helper = tgtadm
+volume_name_template = volume-%s
+volume_group = cinder-volumes
+auth_strategy = keystone
+state_path = /var/lib/cinder
+lock_path = /var/lock/cinder
+volumes_dir = /var/lib/cinder/volumes
+
+my_ip = {{ hostvars[inventory_hostname]['ansible_'~int_api_interface]['ipv4']['address'] }}
+
+transport_url = rabbit://{% for host in groups['controller'] %}{{ rabbitmq_name }}:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_'~int_api_interface]['ipv4']['address'] }}:5672{% if not loop.last %},{% endif %}{% endfor %}
+
+{% if enable_tls_internal  %}
+cafile = {{ internal_fqdn_cert }}
+{% endif %}
+
+{% if enable_tls_internal  %}
+glance_api_servers = https://{{ internal_vip_address }}:19292
+{% elif enable_tls_internal == false %}
+glance_api_servers = http://{{ internal_vip_address }}:19292
+{% endif %}
+glance_catalog_info = image:glance:internalURL
+glance_api_insecure = false
+{% if enable_tls_internal  %}
+glance_ca_certificates_file = {{ internal_fqdn_cert }}
+{% endif %}
+
+enabled_backends = {{ cinder_backend_name }}
+
+[database]
+connection = mysql+pymysql://cinder:{{ db_password }}@{{ internal_vip_address }}/cinder
+
+{% if enable_cinder_backend_nfs | bool %}
+[{{ cinder_backend_name }}]
+volume_driver = cinder.volume.drivers.nfs.NfsDriver
+volume_backend_name = {{ cinder_backend_name }}
+nfs_shares_config = /etc/cinder/nfs_shares
+nfs_snapshot_support = True
+nas_secure_file_permissions = False
+nas_secure_file_operations = False
+{% endif %}
+
+{% if enable_cinder_backend_lvm | bool %}
+[{{ cinder_backend_name }}]
+volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+volume_group = cinder-volumes
+target_protocol = iscsi
+target_helper = tgtadm
+target_ip_address = $my_ip
+{% endif %}
+
+[service_user]
+send_service_user_token = True
+project_domain_name = Default
+project_name = service
+user_domain_name = Default
+password = cloud1234
+username = cinder
+{% if enable_tls_internal  %}
+auth_url = https://{{ internal_vip_address }}:15000
+cafile = {{ internal_fqdn_cert }}
+{% elif enable_tls_internal == false %}
+auth_url = http://{{ internal_vip_address }}:15000
+{% endif %}
+auth_type = password
+
+
+[oslo_messaging_rabbit]
+
+
+[keystone_authtoken]
+{% if enable_tls_internal  %}
+www_authenticate_uri = https://{{ internal_vip_address }}:15000
+auth_url = https://{{ internal_vip_address }}:15000
+cafile = {{ internal_fqdn_cert }}
+{% elif enable_tls_internal == false %}
+www_authenticate_uri = http://{{ internal_vip_address }}:15000
+auth_url = http://{{ internal_vip_address }}:15000
+{% endif %}
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = cinder
+password = {{ keystone_pass }}
+service_token_roles = service
+service_token_roles_required = true
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_'~int_api_interface]['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+
+[oslo_concurrency]
+lock_path = /var/lib/cinder/tmp
+
+
+{% if enable_cinder_custom_backend %}
+{{ cinder_custom_conf}}
+{% endif %}

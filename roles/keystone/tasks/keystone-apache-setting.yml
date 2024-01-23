@@ -1,0 +1,17 @@
+---
+- name: Configure apache2.conf
+  lineinfile: 
+    path: /etc/apache2/apache2.conf
+    backup: true
+    insertbefore: BOF
+    #backrefs: true
+    #line: "ServerName {{ hostvars[item]['ansible_'~int_api_interface].ipv4.address }"
+    line: "ServerName {{ ansible_hostname }}"
+  register: apache2_server_name
+
+- name: Enable and start Apache.
+  service:
+    name: apache2
+    state: restarted
+    enabled: yes
+  when: apache2_server_name is changed

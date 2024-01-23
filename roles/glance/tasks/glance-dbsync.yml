@@ -1,0 +1,4 @@
+---
+    - name: DB sync
+      changed_when: no
+      command: /bin/sh -c "glance-manage db_sync" 

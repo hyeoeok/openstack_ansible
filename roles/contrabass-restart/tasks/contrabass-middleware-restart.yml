@@ -1,0 +1,26 @@
+---
+- name: Contrabass Percona-Xtradb-Cluster restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - mysql@bootstrap
+
+
+- name: Contrabass Pacemaker & Corosync & pcsd restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - pacemaker
+    - corosync
+    - pcsd
+
+- name: Contrabass Chrony & Haproxy & Rabbitmq-server restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - haproxy
+    - rabbitmq-server
+    - chrony

@@ -1,0 +1,9 @@
+
+- name: apache2 module set 
+  community.general.apache2_module:
+    name: "{{ item }}"
+  with_items:
+  - ssl
+  - headers
+  - rewrite
+  when: enable_horizon_tls | bool

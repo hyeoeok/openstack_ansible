@@ -1,0 +1,8 @@
+---
+- name: Compute Nodes service restart
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - nova-compute
+    - neutron-openvswitch-agent

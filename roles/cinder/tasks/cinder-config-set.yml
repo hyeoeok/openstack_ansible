@@ -1,0 +1,12 @@
+---
+- name: cinder-api config file setting
+  template:
+    src: "{{ item }}"
+    dest: /etc/cinder/cinder.conf
+    owner: cinder
+    group: root
+    mode: 0644
+  with_items:
+  - cinder.conf.j2
+  register: cinder_conf
+  notify: restart apahce2.

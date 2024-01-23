@@ -1,0 +1,15 @@
+---
+- name: masakari config file setting
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: masakarimonitors
+    mode: 0644
+  with_items:
+  - { src: 'masakarimonitors.conf.j2',dest: '/etc/masakarimonitors/masakarimonitors.conf'}
+  - { src: 'process_list.yaml.j2',dest: '/etc/masakarimonitors/process_list.yaml'}
+  register: masakari_com_conf
+  notify: 
+  - restart masakari-host
+  - restart masakari-instance

@@ -1,0 +1,57 @@
+---
+- name: add cinder conf
+  blockinfile:
+    path: /etc/cinder/cinder.conf
+    block: |
+      [key_manager]
+      backend = barbican
+  when: inventory_hostname in groups["controller"]
+
+- name: cinder config check
+  stat:
+    path: /etc/cinder/cinder.conf
+  register: cinder_conf_check
+
+- name: restart cinder
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+   - apache2
+   - cinder-volume
+   - cinder-scheduler
+  when: 
+    - inventory_hostname in groups["controller"] 
+    - cinder_conf_check is changed
+  
+
+- name: install barbicanclient
+  apt:
+    update_cache: yes
+    name: python3-barbicanclient
+    state: present
+  when: inventory_hostname in groups["compute"]
+
+- name: add nova conf
+  blockinfile:
+    path: /etc/nova/nova.conf
+    block: |
+      [key_manager]
+      backend = barbican
+  when: inventory_hostname in groups["compute"]
+
+- name: nova config check
+  stat:
+    path: /etc/nova/nova.conf
+  register: nova_conf_check
+
+- name: restart nova
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+   - nova-compute
+  when: 
+    - inventory_hostname in groups["compute"] 
+    - nova_conf_check is changed
+

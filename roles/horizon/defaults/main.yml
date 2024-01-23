@@ -1,0 +1,5 @@
+external_cert: "{{ certificates_dir }}/external_crt.pem"
+external_key: "{{ certificates_dir }}/external_key.pem"
+
+local_external_cert: /opt/certificate/private/external/external_crt.pem
+local_external_key: /opt/certificate/private/external/external_key.pem
