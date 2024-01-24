@@ -5,3 +5,139 @@
   roles:
     - { role: environment }
   tags: a
+  
+- name: chrony settings
+  become: true
+  hosts: alls
+  roles:
+    - role: chrony
+  tags: b
+
+- name: Certificate Generate
+  become: true
+  hosts: alls
+  roles:
+    - role: certificates
+      when:
+        - enable_openstack_tls | bool
+  tags: c
+
+- name: haproxy && corosync
+  become: true
+  hosts: controller
+  roles:
+    - role: haproxy
+  tags: d
+
+- name: memcached install
+  become: true
+  hosts: controller
+  roles:
+    - role: memcached
+  tags: e
+
+- name: Percona Settings
+  become: true
+  hosts: controller
+  roles:
+    - role: percona
+  tags: f
+
+- name: RabbitMQ Settings
+  become: true
+  hosts: controller
+  roles:
+    - role: rabbitmq
+      tags: g
+
+- name: Install Contrabass Controller
+  become: true
+  hosts: controller
+  roles:
+    - role: keystone
+      tags: h
+    - role: glance
+      tags: i
+    - role: placement
+      tags: j
+    - role: nova
+      tags: k
+    - role: neutron
+      tags: l
+    - role: cinder
+      tags: m
+    - role: horizon
+      tags: n
+    - role: manila
+      when: enable_manila == true
+    - role: octavia
+      when: enable_octavia == true
+      tags: o
+    - role: octavia-set
+      when: enable_octavia == true
+      tags: oo
+  tags: contrabass
+
+- name: Install barbican
+  become: true
+  hosts: openstack
+  roles:
+    - role: barbican
+      tags: p
+      when: enable_barbican == true
+
+
+- name: Install masakari
+  become: true
+  hosts: openstack
+  roles:
+    - role: masakari
+      tags: masakari
+      when: enable_masakari == true
+  tags: q
+
+- name: Install Heat
+  become: true
+  hosts: controller
+  roles:
+    - role: heat
+      when: enable_heat == true
+  tags: r
+
+- name: Install Contrabass Compute & settings
+  become: true
+  hosts: openstack
+  roles:
+    - role: compute
+  tags: s
+
+- name: Connect with ceph
+  become: true
+  hosts: alls
+  roles:
+    - role: ceph
+      when:
+      - cinder_backend_name == "ceph"
+      - enable_cinder_custom_backend == false
+  tags: t
+
+- name: Controller Nodes Service Restart
+  become: true
+  hosts: openstack
+  roles:
+    - role: controller-restart
+  tags: u
+
+- name: Compute Nodes Service Restart
+  become: true
+  hosts: openstack
+  roles:
+    - role: compute-restart
+  tags: v
+
+- name: Contrabass Service Restart
+  become: true
+  hosts: controller
+  roles:
+    - role: contrabass-restart
+  tags: w
