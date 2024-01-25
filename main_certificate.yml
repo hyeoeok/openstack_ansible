@@ -5,4 +5,3 @@
     - role: certificates
       when:
         - enable_openstack_tls | bool
-  tags: c
