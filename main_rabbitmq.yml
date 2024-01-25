@@ -1,0 +1,5 @@
+- name: RabbitMQ Settings
+  become: true
+  hosts: controller
+  roles:
+    - role: rabbitmq
