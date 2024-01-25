@@ -1,0 +1,8 @@
+- name: Certificate Generate
+  become: true
+  hosts: alls
+  roles:
+    - role: certificates
+      when:
+        - enable_openstack_tls | bool
+  tags: c
