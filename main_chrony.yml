@@ -4,4 +4,3 @@
   hosts: alls
   roles:
     - role: chrony
-  tags: b
