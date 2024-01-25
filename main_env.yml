@@ -3,4 +3,3 @@
   hosts: alls
   roles:
     - { role: environment }
-  tags: a
