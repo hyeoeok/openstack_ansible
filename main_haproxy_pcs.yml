@@ -1,0 +1,6 @@
+- name: haproxy && corosync
+  become: true
+  hosts: controller
+  roles:
+    - role: haproxy
+  tags: d
