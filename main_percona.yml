@@ -1,0 +1,5 @@
+- name: Percona Settings
+  become: true
+  hosts: controller
+  roles:
+    - role: percona
