@@ -3,11 +3,11 @@
 enable_openstack_tls: false
 enable_swift: false
 enable_manila: false
-enable_octavia: true
+enable_octavia: false
 enable_barbican: false
-enable_masakari: true
+enable_masakari: false
 enable_horizon_tls: false
-enable_heat: true
+enable_heat: false
   
 ##################
 # Baremetal init #
@@ -21,10 +21,10 @@ use_local_repo: false
 
 #pakage_ip: 101.202.35.181:10880
 openstack_version: yoga
-ntp_server: 192.168.20.151
+ntp_server: 192.168.20.187
 
-int_api_interface: ens33
-external_api_interface: ens33
+int_api_interface: ens192
+external_api_interface: ens192
 
 ####################
 # perocna settings #
@@ -48,9 +48,9 @@ rabbitmq_create_cluster: false
 ############
 haproxy_member: con1
 haproxy_pwd: cloud1234
-internal_vip_address: 192.168.20.163
+internal_vip_address: 192.168.20.166
 internal_vip_cidr: 24
-external_vip_address: 192.168.20.163
+external_vip_address: 192.168.20.166
 external_vip_cidr: 24
 
 ###############
@@ -90,7 +90,7 @@ cinder_custom_conf: |
 # neutron #
 ###########
 ## external br-ex port ##
-bridge_port: ens34
+bridge_port: ens224
 ## external second br-ex ##
 #second_bridge: br-backup
 ## external second br-ex port ##
