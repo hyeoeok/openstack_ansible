@@ -1,7 +1,7 @@
 ---
-- name: ubuntu 22.04 server env init
+- name: chrony settings
   become: true
   hosts: alls
   roles:
-    - { role: environment }
-  tags: a
+    - role: chrony
+  tags: b
