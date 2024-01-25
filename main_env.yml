@@ -1,0 +1,6 @@
+- name: ubuntu 22.04 server env init
+  become: true
+  hosts: alls
+  roles:
+    - { role: environment }
+  tags: a
