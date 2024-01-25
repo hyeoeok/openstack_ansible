@@ -1,0 +1,5 @@
+- name: Install Contrabass Compute & settings
+  become: true
+  hosts: openstack
+  roles:
+    - role: compute
