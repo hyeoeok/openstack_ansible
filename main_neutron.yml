@@ -1,0 +1,5 @@
+- name: Install Contrabass Controller
+  become: true
+  hosts: controller
+  roles:
+    - role: neutron
